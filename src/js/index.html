@@ -2,9 +2,26 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Lab11_Nodejs</title>
+    <title>Lab12_Visualization</title>
   </head>
   <body>
     <h1>Hello World</h1>
+    <button type="button" onclick="getTL()">Get Timeline</button>
+    <div id="TL"/>
+    <script>
+      function getTL(){
+        const xmlHttp = new XMLHttpRequest();
+        xmlHttp.onreadystatechange = function() {
+          if(xmlHttp.readyState === XMLHttpRequest.DONE && xmlHttp.status === 200) {
+            document.getElementById("TL").innerHTML = xmlHttp.responseText;
+          }
+          if(xmlHttp.readyState === XMLHttpRequest.DONE && xmlHttp.status === 0){
+            document.getElementById("TL").innerHTML = "Error Communicating with localhost:8080";
+          }
+        };
+        xmlHttp.open("GET", "http://localhost:8080/api/1.0/twitter/timeline", true);
+        xmlHttp.send();
+      }
+    </script>
   </body>
 </html>
