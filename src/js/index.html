@@ -12,13 +12,14 @@
       function getTL(){
         const xmlHttp = new XMLHttpRequest();
         xmlHttp.onreadystatechange = function() {
-          if(xmlHttp.readyState === XMLHttpRequest.DONE && xmlHttp.status === 200) {
-            document.getElementById("TL").innerHTML = xmlHttp.responseText;
+          if(xmlHttp.readyState === XMLHttpRequest.DONE){
+            if(xmlHttp.status === 200){
+              document.getElementById("TL").innerHTML = xmlHttp.responseText;
+            } else {
+              document.getElementById("TL").innerHTML = "Error Communicating with localhost:8080";
+            }
           }
-          if(xmlHttp.readyState === XMLHttpRequest.DONE && xmlHttp.status === 0){
-            document.getElementById("TL").innerHTML = "Error Communicating with localhost:8080";
-          }
-        };
+        }
         xmlHttp.open("GET", "http://localhost:8080/api/1.0/twitter/timeline", true);
         xmlHttp.send();
       }
