@@ -4,7 +4,7 @@ const fs = require('fs');
 const hostname = 'localhost';
 const port = 9000;
 
-fs.readFile('index.html',(err,html) =>{
+fs.readFile('index.html',(err,html) => {
   if(err){
     throw err;
   }
@@ -12,11 +12,11 @@ fs.readFile('index.html',(err,html) =>{
   const server = http.createServer((req, res) => {
     res.statusCode = 200;
     res.setHeader('Content-Type', 'text/html');
-    res.write(html)
+    res.write(html);
     res.end();
   });
 
-  server.listen(port,hostname, () =>{
+  server.listen(port,hostname, () => {
     console.log('Server running at http://'+hostname+':'+port+'/');
   });
 })
