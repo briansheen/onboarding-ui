@@ -16,7 +16,6 @@
           if(xmlHttp.readyState === XMLHttpRequest.DONE){
             if(xmlHttp.status === 200){
               const timelineList = JSON.parse(xmlHttp.responseText);
-              var i;
               for(i = 0; i < timelineList.length; i++) {
                 const user = timelineList[i].twitterUser;
                 const div = document.createElement("div");
