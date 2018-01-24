@@ -10,11 +10,33 @@
     <div id="TL"/>
     <script>
       function getTL(){
+        document.getElementById("TL").innerHTML = "";
         const xmlHttp = new XMLHttpRequest();
         xmlHttp.onreadystatechange = function() {
           if(xmlHttp.readyState === XMLHttpRequest.DONE){
             if(xmlHttp.status === 200){
-              document.getElementById("TL").innerHTML = xmlHttp.responseText;
+              const timelineList = JSON.parse(xmlHttp.responseText);
+              for(i = 0; i < timelineList.length; i++) {
+                const user = timelineList[i].twitterUser;
+                const div = document.createElement("div");
+                const link = document.createElement("a");
+                const date = document.createTextNode(new Date(timelineList[i].createdAt));
+                const message = document.createTextNode(timelineList[i].message);
+                const img = document.createElement("img");
+                const span = document.createElement("span");
+                span.appendChild(img);
+                img.setAttribute("src", user.profileImageUrl);
+                link.setAttribute("target","_blank");
+                link.setAttribute("href", "https://twitter.com/"+user.twitterHandle+"/status/"+timelineList[i].id);
+                link.appendChild(message);
+                div.appendChild(span);
+                div.appendChild(date);
+                div.appendChild(link);
+                if(i%2 == 1){
+                  div.style.backgroundColor = "DeepSkyBlue";
+                }
+                document.getElementById("TL").appendChild(div);
+              }
             } else {
               document.getElementById("TL").innerHTML = "Error Communicating with localhost:8080";
             }
