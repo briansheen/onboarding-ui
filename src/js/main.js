@@ -1,19 +1,20 @@
 const http = require('http');
 const fs = require('fs');
-
+const path = require('path');
 const hostname = 'localhost';
 const port = 9000;
 var htmlFile;
 var cssFile;
 
-fs.readFile('index.html',function(err, data){
+
+fs.readFile(path.resolve(__dirname,"../html/index.html"), function(err, data){
   if(err){
     throw err;
   }
   htmlFile = data;
 });
 
-fs.readFile('style.css', function(err, data){
+fs.readFile(path.resolve(__dirname,"../css/style.css"), function(err, data){
   if(err){
     throw err;
   }
