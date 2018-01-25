@@ -2,11 +2,12 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Lab12_Visualization</title>
+    <title>Lab14_StyleIt</title>
+    <link rel="stylesheet" href="style.css">
   </head>
-  <body>
-    <h1>Hello World</h1>
-    <button type="button" onclick="getTL()">Get Timeline</button>
+  <body onload="getTL()">
+    <div id="greet">Lab for Brian Sheen</div>
+    <button type="button" onclick="getTL()">Refresh Timeline</button>
     <div id="TL"/>
     <script>
       function getTL(){
@@ -33,7 +34,9 @@
                 div.appendChild(date);
                 div.appendChild(link);
                 if(i%2 == 1){
-                  div.style.backgroundColor = "DeepSkyBlue";
+                  div.setAttribute("id", "odd");
+                } else {
+                  div.setAttribute("id", "even");
                 }
                 document.getElementById("TL").appendChild(div);
               }
