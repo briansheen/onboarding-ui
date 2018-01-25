@@ -1,0 +1,43 @@
+#even{
+  background-color: #D3D3D3;
+}
+
+#odd{
+  background-color: #C0C0C0;
+}
+
+#greet{
+  font-size: 40pt;
+  text-align: center;
+  font-weight: bold;
+  font-style: italic;
+  font-family: Verdana;
+}
+
+#TL{
+  border-style: groove;
+  width: 60%;
+  margin: auto;
+}
+
+#img{
+  width: 7%;
+  margin-left: 10px;
+  margin-top: 10px;
+}
+
+#msg{
+  margin-left: 10px;
+}
+
+#date{
+
+}
+
+#wrapper{
+  float: left;
+}
+
+span{
+  vertical-align: middle;
+}
