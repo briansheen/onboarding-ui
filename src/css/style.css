@@ -57,6 +57,10 @@
   font-size: 12pt;
 }
 
+.img-circle{
+  border-radius: 50%;
+}
+
 a:link{
   text-decoration: none;
   color: black;

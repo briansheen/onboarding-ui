@@ -51,6 +51,7 @@
                 link.setAttribute("href", "https://twitter.com/"+user.twitterHandle+"/status/"+timelineList[i].id);
 
                 const img = document.createElement("img");
+                img.setAttribute("class", "img-circle");
                 img.setAttribute("src", user.profileImageUrl);
 
                 const name = document.createTextNode(user.name);
