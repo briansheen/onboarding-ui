@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="style.css">
   </head>
   <body onload="getTL()">
-    <div id="greet">Lab for Brian Sheen</div>
+    <div class="greet">Lab for Brian Sheen</div>
     <button type="button" onclick="getTL()">Refresh Timeline</button>
     <div id="TL"/>
     <script>
@@ -18,19 +18,33 @@
             if(xmlHttp.status === 200){
               const timelineList = JSON.parse(xmlHttp.responseText);
               for(i = 0; i < timelineList.length; i++) {
+
+                const options = {weekday:"short", year:"numeric", month:"short", day:"2-digit", hour:"numeric", minute:"numeric"};
+
                 const user = timelineList[i].twitterUser;
 
                 const div = document.createElement("div");
-                div.setAttribute("id", "wrapper");
 
-                const msgDiv = document.createElement("div");
-                msgDiv.setAttribute("id", "msg");
+                const userDiv = document.createElement("div");
+                userDiv.setAttribute("class", "userInfo");
+
+                const nameDiv = document.createElement("div");
+                nameDiv.setAttribute("class", "name");
+
+                const handleDiv = document.createElement("div");
+                handleDiv.setAttribute("class", "handle");
 
                 const imgDiv = document.createElement("div");
-                imgDiv.setAttribute("id", "img");
+                imgDiv.setAttribute("class", "img");
+
+                const msgDiv = document.createElement("div");
+                msgDiv.setAttribute("class", "msg");
 
                 const dateDiv = document.createElement("div");
-                dateDiv.setAttribute("id", "date");
+                dateDiv.setAttribute("class", "date");
+
+                const contentDiv = document.createElement("div");
+                contentDiv.setAttribute("class", "content");
 
                 const link = document.createElement("a");
                 link.setAttribute("target", "_blank");
@@ -39,22 +53,39 @@
                 const img = document.createElement("img");
                 img.setAttribute("src", user.profileImageUrl);
 
-                const date = document.createTextNode(new Date(timelineList[i].createdAt));
+                const name = document.createTextNode(user.name);
+                const handle = document.createTextNode("@"+user.twitterHandle);
+
+
+                const date = new Date(timelineList[i].createdAt);
+                const formattedDate = document.createTextNode(date.toLocaleDateString("en-US", options));
 
                 const message = document.createTextNode(timelineList[i].message);
 
-                const span = document.createElement("span");
-
                 imgDiv.appendChild(img);
+                nameDiv.appendChild(name);
+                handleDiv.appendChild(handle);
+
+                userDiv.appendChild(imgDiv);
+                userDiv.appendChild(nameDiv);
+                userDiv.appendChild(handleDiv);
+
                 link.appendChild(message);
+
+                dateDiv.appendChild(formattedDate);
+
                 msgDiv.appendChild(link);
-                div.appendChild(imgDiv);
-                div.appendChild(msgDiv);
+
+                contentDiv.appendChild(dateDiv);
+                contentDiv.appendChild(msgDiv);
+
+                div.appendChild(userDiv);
+                div.appendChild(contentDiv);
 
                 if(i%2 == 1){
-                  div.setAttribute("id", "odd");
+                  div.setAttribute("class", "odd");
                 } else {
-                  div.setAttribute("id", "even");
+                  div.setAttribute("class", "even");
                 }
                 document.getElementById("TL").appendChild(div);
               }

@@ -1,12 +1,18 @@
-#even{
-  background-color: #D3D3D3;
+.even{
+  background-color: #e9e9e9;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  height: 100px;
 }
 
-#odd{
-  background-color: #C0C0C0;
+.odd{
+  background-color: #e8f5fd;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  height: 100px;
 }
 
-#greet{
+.greet{
   font-size: 40pt;
   text-align: center;
   font-weight: bold;
@@ -16,28 +22,46 @@
 
 #TL{
   border-style: groove;
-  width: 60%;
-  margin: auto;
 }
 
-#img{
-  width: 7%;
-  margin-left: 10px;
-  margin-top: 10px;
-}
-
-#msg{
-  margin-left: 10px;
-}
-
-#date{
-
-}
-
-#wrapper{
+.userInfo{
   float: left;
+  text-align: center;
+  width: 180px;
+  position: relative;
+  top: 5%;
 }
 
-span{
-  vertical-align: middle;
+.name{
+  font-weight: bold;
+  font-size: 12pt;
+}
+
+.handle{
+  font-size: 10pt;
+}
+
+.content{
+  text-align: left;
+  position: relative;
+  top: 8%;
+  left: 1%;
+}
+
+.date{
+  font-size: 10pt;
+  padding-bottom: 20px;
+}
+
+.msg{
+  font-size: 12pt;
+}
+
+a:link{
+  text-decoration: none;
+  color: black;
+}
+
+a:hover{
+  color:blue;
 }
