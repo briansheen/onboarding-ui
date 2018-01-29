@@ -1,0 +1,77 @@
+.tweet {
+  height: 110px;
+  border-bottom: 1px solid #d3d3d3;
+}
+
+.tweet:nth-of-type(even) {
+  background-color: #e9e9e9;
+}
+
+.tweet:nth-of-type(odd) {
+  background-color: #e8f5fd;
+}
+
+.greet {
+  font-size: 40pt;
+  text-align: center;
+  font-weight: bold;
+  font-style: italic;
+  font-family: Verdana;
+}
+
+#TL {
+  border: 1px solid;
+  margin: 10px 5px 0;
+}
+
+.userInfo {
+  float: left;
+  text-align: center;
+  width: 160px;
+  margin-top: 15px;
+}
+
+.user .name {
+  font-weight: bold;
+  font-size: 11pt;
+}
+
+.handle {
+  font-size: 7pt;
+}
+
+.content {
+  float: left;
+  text-align: left;
+  margin-top: 35px;
+}
+
+.date {
+  font-size: 8pt;
+  font-style: italic;
+  margin-bottom: 5px;
+}
+
+.msg {
+  font-size: 11pt;
+
+}
+
+.img-circle {
+  border-radius: 50%;
+  height: 50px;
+  width: 50px;
+}
+
+.link:link {
+  text-decoration: none;
+  color: black;
+}
+
+.link:hover {
+  color: blue;
+}
+
+.greet .name {
+  color: green;
+}
