@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="style.css">
   </head>
   <body onload="getTL()">
-    <div class="greet">Lab for <span class="name">Brian Sheen</span></div>
+    <div class="greet">Lab for <span class="name" id="brian">Brian Sheen</span></div>
     <button type="button" onclick="getTL()">Refresh Timeline</button>
     <div id="TL"/>
     <script>
@@ -24,7 +24,7 @@
                 const user = timelineList[i].twitterUser;
 
                 const div = document.createElement("div");
-                div.setAttribute("class", "timeline")
+                div.setAttribute("class", "tweet")
 
                 const userDiv = document.createElement("div");
                 userDiv.setAttribute("class", "userInfo");
