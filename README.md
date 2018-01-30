@@ -12,13 +12,16 @@
     ```
     cd {location of directory you created above}
 
-    git clone https://github.com/briansheen/OnboardingFrontEnd.git
+    git clone https://github.com/briansheen/onboarding-ui.git
 
-    cd OnboardingFrontEnd/src/js
+    cd onboarding-ui/
     ```
 ## Check Node Version
     node -v
 
-## Start Node Server
-    node main.js
+## Install Node Modules
+    npm install
+
+## Start Server
+    gulp dev
   - in your web browser, go to http://localhost:9000/    
