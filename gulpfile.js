@@ -1,10 +1,9 @@
 const gulp = require('gulp');
 const connect = require('gulp-connect');
-/*const fs = require('fs');
-const path = require('path');*/
+const sass = require('gulp-sass');
 
 const htmlSources = ['src/html/*.html'];
-const cssSources = ['src/css/*.css'];
+const scssSources = ['src/scss/*.scss'];
 
 gulp.task('hello', function(){
   console.log('Hello World!');
@@ -60,15 +59,16 @@ gulp.task('html', function(){
     .pipe(connect.reload());
 });
 
-gulp.task('css', function(){
-  gulp.src('src/css/*.css')
+gulp.task('sass', function(){
+  gulp.src(scssSources)
+    .pipe(sass())
     .pipe(gulp.dest('./prod/css'))
     .pipe(connect.reload());
 });
 
 gulp.task('watch',function(){
   gulp.watch(htmlSources,['html']);
-  gulp.watch(cssSources,['css']);
+  gulp.watch(scssSources,['sass']);
 });
 
-gulp.task('dev', ['html','css','server','watch']);
+gulp.task('dev', ['html','sass','server','watch']);

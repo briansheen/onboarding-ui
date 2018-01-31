@@ -16,8 +16,9 @@
 
     cd onboarding-ui/
     ```
-## Check Node Version
-    node -v
+## Node Version
+  - Node Version: 8.9.4
+  - NPM Version: 5.6.0
 
 ## Install Node Modules
     npm install

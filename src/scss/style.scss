@@ -1,0 +1,77 @@
+@mixin greeting {
+  font-size: 40pt;
+  text-align: center;
+  font-weight: bold;
+  font-style: italic;
+  font-family: Verdana;
+}
+
+$border-color: #d3d3d3;
+$even-tweet: #e9e9e9;
+$odd-tweet: #e8f5fd;
+
+.tweet {
+  height: 110px;
+  border-bottom: 1px solid $border-color;
+  overflow: scroll;
+  &:nth-of-type(even){
+    background-color: $even-tweet;
+  }
+  &:nth-of-type(odd){
+    background-color: $odd-tweet;
+  }
+  .userInfo{
+    float: left;
+    clear: left;
+    text-align: center;
+    width: 160px;
+    margin: 14px 0;
+    .name {
+      font-weight: bold;
+      font-size: 11pt;
+    }
+    .handle {
+      font-size: 7pt;
+    }
+    .img-circle {
+      border-radius: 50%;
+      height: 50px;
+      width: 50px;
+    }
+  }
+}
+
+.greet {
+  @include greeting
+  .name{
+    color: green;
+  }
+}
+
+#TL {
+  border: 1px solid;
+  margin: 10px 5px 0;
+}
+
+.content {
+  text-align: left;
+  padding-top: 33px;
+  overflow: scroll;
+  .date {
+    font-size: 8pt;
+    font-style: italic;
+    margin-bottom: 5px;
+  }
+  .msg {
+    font-size: 11pt;
+  }
+  .link {
+    &:link {
+      text-decoration: none;
+      color: black;
+    }
+    &:hover {
+      color: blue;
+    }
+  }
+}
