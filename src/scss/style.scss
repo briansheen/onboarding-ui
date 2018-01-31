@@ -14,25 +14,31 @@ $odd-tweet: #e8f5fd;
   height: 110px;
   border-bottom: 1px solid $border-color;
   overflow: scroll;
+
   &:nth-of-type(even){
     background-color: $even-tweet;
   }
+
   &:nth-of-type(odd){
     background-color: $odd-tweet;
   }
+
   .userInfo{
     float: left;
     clear: left;
     text-align: center;
     width: 160px;
     margin: 14px 0;
+
     .name {
       font-weight: bold;
       font-size: 11pt;
     }
+
     .handle {
       font-size: 7pt;
     }
+
     .img-circle {
       border-radius: 50%;
       height: 50px;
@@ -57,14 +63,17 @@ $odd-tweet: #e8f5fd;
   text-align: left;
   padding-top: 33px;
   overflow: scroll;
+
   .date {
     font-size: 8pt;
     font-style: italic;
     margin-bottom: 5px;
   }
+
   .msg {
     font-size: 11pt;
   }
+
   .link {
     &:link {
       text-decoration: none;
