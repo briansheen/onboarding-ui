@@ -12,4 +12,4 @@ document.addEventListener("DOMContentLoaded", () => {
     React.createElement(Hello, {what: 'React'}, null),
     document.getElementById("hello")
   );
-})
+});
