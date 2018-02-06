@@ -7,8 +7,6 @@ function getTL(){
         const timelineList = JSON.parse(xmlHttp.responseText);
         for(let i = 0; i < timelineList.length; i++) {
 
-          const options = {month:"short", day:"2-digit"};
-
           const user = timelineList[i].twitterUser;
 
           const div = document.createElement("div");
@@ -38,18 +36,18 @@ function getTL(){
           const link = document.createElement("a");
           link.setAttribute("class", "link");
           link.setAttribute("target", "_blank");
-          link.setAttribute("href", "https://twitter.com/"+user.twitterHandle+"/status/"+timelineList[i].id);
+          link.setAttribute("href", `https://twitter.com/${user.twitterHandle}/status/${timelineList[i].id}`);
 
           const img = document.createElement("img");
           img.setAttribute("class", "img-circle");
           img.setAttribute("src", user.profileImageUrl);
 
           const name = document.createTextNode(user.name);
-          const handle = document.createTextNode("@"+user.twitterHandle);
+          const handle = document.createTextNode(`@${user.twitterHandle}`);
 
 
           const date = new Date(timelineList[i].createdAt);
-          const formattedDate = document.createTextNode(date.toLocaleDateString("en-US", options));
+          const formattedDate = document.createTextNode(date.toLocaleDateString("en-US", {month:"short", day:"2-digit"}));
 
           const message = document.createTextNode(timelineList[i].message);
 

@@ -78,9 +78,9 @@ gulp.task('js', function(){
 });
 
 gulp.task('watch',function(){
+  gulp.watch(jsSources,['js']);
   gulp.watch(htmlSources,['html']);
   gulp.watch(scssSources,['sass']);
-  gulp.watch(jsSources,['js']);
 });
 
 gulp.task('dev', ['js','html','sass','server','watch']);
