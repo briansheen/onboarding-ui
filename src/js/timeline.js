@@ -86,8 +86,7 @@ function getTL(){
 
 document.addEventListener("DOMContentLoaded", function(){
   getTL();
-});
-
-document.getElementById("refreshTL").addEventListener("click", function(){
-  getTL();
+  document.getElementById("refreshTL").addEventListener("click", function(){
+    getTL();
+  });
 });
