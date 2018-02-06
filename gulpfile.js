@@ -1,9 +1,12 @@
 const gulp = require('gulp');
 const connect = require('gulp-connect');
 const sass = require('gulp-sass');
+const babel = require('gulp-babel');
+const browserify = require('gulp-browserify');
 
 const htmlSources = ['src/html/*.html'];
 const scssSources = ['src/scss/*.scss'];
+const jsSources = ['src/js/*.js'];
 
 gulp.task('hello', function(){
   console.log('Hello World!');
@@ -54,7 +57,7 @@ gulp.task('server', function(){
 });
 
 gulp.task('html', function(){
-  gulp.src('src/html/*.html')
+  gulp.src(htmlSources)
     .pipe(gulp.dest('./prod'))
     .pipe(connect.reload());
 });
@@ -66,9 +69,18 @@ gulp.task('sass', function(){
     .pipe(connect.reload());
 });
 
+gulp.task('js', function(){
+  gulp.src(jsSources)
+    .pipe(babel())
+    .pipe(browserify())
+    .pipe(gulp.dest('./prod/js'))
+    .pipe(connect.reload());
+});
+
 gulp.task('watch',function(){
+  gulp.watch(jsSources,['js']);
   gulp.watch(htmlSources,['html']);
   gulp.watch(scssSources,['sass']);
 });
 
-gulp.task('dev', ['html','sass','server','watch']);
+gulp.task('dev', ['js','html','sass','server','watch']);
