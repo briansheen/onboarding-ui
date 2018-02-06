@@ -7,7 +7,7 @@ class Hello extends React.Component {
   }
 }
 
-document.addEventListener("DOMContentLoaded", function(){
+document.addEventListener("DOMContentLoaded", () => {
   ReactDOM.render(
     React.createElement(Hello, {what: 'React'}, null),
     document.getElementById("hello")

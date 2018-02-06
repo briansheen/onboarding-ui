@@ -82,9 +82,9 @@ function getTL(){
   xmlHttp.send();
 }
 
-document.addEventListener("DOMContentLoaded", function(){
+document.addEventListener("DOMContentLoaded", () => {
   getTL();
-  document.getElementById("refreshTL").addEventListener("click", function(){
+  document.getElementById("refreshTL").addEventListener("click", () => {
     getTL();
   });
 });
