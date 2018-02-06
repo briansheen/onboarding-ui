@@ -83,3 +83,11 @@ function getTL(){
   xmlHttp.open("GET", "http://localhost:8080/api/1.0/twitter/timeline", true);
   xmlHttp.send();
 }
+
+document.addEventListener("DOMContentLoaded", function(){
+  getTL();
+});
+
+document.getElementById("refreshTL").addEventListener("click", function(){
+  getTL();
+});

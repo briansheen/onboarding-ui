@@ -72,13 +72,6 @@ gulp.task('sass', function(){
 gulp.task('js', function(){
   gulp.src(jsSources)
     .pipe(babel())
-    .pipe(gulp.dest('./prod/js'))
-    .pipe(connect.reload());
-})
-
-gulp.task('browserify', function(){
-  gulp.src('src/js/hello.js')
-    .pipe(babel())
     .pipe(browserify())
     .pipe(gulp.dest('./prod/js'))
     .pipe(connect.reload());
@@ -87,7 +80,7 @@ gulp.task('browserify', function(){
 gulp.task('watch',function(){
   gulp.watch(htmlSources,['html']);
   gulp.watch(scssSources,['sass']);
-  gulp.watch(jsSources,['js','browserify']);
+  gulp.watch(jsSources,['js']);
 });
 
-gulp.task('dev', ['js','browserify','html','sass','server','watch']);
+gulp.task('dev', ['js','html','sass','server','watch']);
