@@ -1,7 +1,7 @@
 function getTL(){
   document.getElementById("TL").innerHTML = "";
   const xmlHttp = new XMLHttpRequest();
-  xmlHttp.onreadystatechange = function() {
+  xmlHttp.onreadystatechange = () => {
     if(xmlHttp.readyState === XMLHttpRequest.DONE){
       if(xmlHttp.status === 200){
         const timelineList = JSON.parse(xmlHttp.responseText);
