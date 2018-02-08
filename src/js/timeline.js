@@ -1,6 +1,18 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
+class Avatar extends React.Component {
+  render() {
+    let user = this.props;
+    return React.createElement('div', {className: 'userInfo'},
+      React.createElement('div', {className: 'img'},
+        React.createElement('img', {src: `${user.profileImageUrl}`, className: 'img-circle'})),
+      React.createElement('div', {className: 'name'}, `${user.name}`),
+      React.createElement('div', {className: 'handle'}, `@${user.twitterHandle}`)
+    );
+  }
+}
+
 class Tweet extends React.Component {
   render() {
     let tweet = this.props.tweet;
@@ -8,12 +20,7 @@ class Tweet extends React.Component {
     let date = new Date(tweet.createdAt);
     let formattedDate = date.toLocaleDateString("en-US", {month:"short", day:"2-digit"});
     return React.createElement('div', {className: 'tweet'},
-      React.createElement('div', {className: 'userInfo'},
-        React.createElement('div', {className: 'img'},
-          React.createElement('img', {src: `${user.profileImageUrl}`, className: 'img-circle'})),
-        React.createElement('div', {className: 'name'}, `${user.name}`),
-        React.createElement('div', {className: 'handle'}, `@${user.twitterHandle}`)
-      ),
+      React.createElement(Avatar, user),
       React.createElement('div', {className: 'content'},
         React.createElement('div', {className: 'date'}, formattedDate),
         React.createElement('a', {className: 'link', target: '_blank', href: `https://twitter.com/${user.twitterHandle}/status/${tweet.id}`},
