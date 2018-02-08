@@ -6,7 +6,7 @@ class Refresh extends React.Component {
     getTL();
   }
   render() {
-    return React.createElement('button', {id: 'refreshTL', type: 'button', onClick: this.refreshTimeline}, "Refresh Timeline");
+    return React.createElement('button', {type: 'button', onClick: this.refreshTimeline}, "Refresh Timeline");
   }
 }
 
