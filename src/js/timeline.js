@@ -3,19 +3,20 @@ import ReactDOM from "react-dom";
 
 class Tweet extends React.Component {
   render() {
-    let props = this.props.props;
+    let props = this.props.tweet;
+    let user = props.twitterUser;
     let date = new Date(props.createdAt);
     let formattedDate = date.toLocaleDateString("en-US", {month:"short", day:"2-digit"});
     return React.createElement('div', {className: 'tweet'},
       React.createElement('div', {className: 'userInfo'},
         React.createElement('div', {className: 'img'},
-          React.createElement('img', {src: `${props.profileImageUrl}`, className: 'img-circle'})),
-        React.createElement('div', {className: 'name'}, `${props.name}`),
-        React.createElement('div', {className: 'handle'}, `@${props.twitterHandle}`)
+          React.createElement('img', {src: `${user.profileImageUrl}`, className: 'img-circle'})),
+        React.createElement('div', {className: 'name'}, `${user.name}`),
+        React.createElement('div', {className: 'handle'}, `@${user.twitterHandle}`)
       ),
       React.createElement('div', {className: 'content'},
         React.createElement('div', {className: 'date'}, formattedDate),
-        React.createElement('a', {className: 'link', target: '_blank', href: `https://twitter.com/${props.twitterHandle}/status/${props.id}`},
+        React.createElement('a', {className: 'link', target: '_blank', href: `https://twitter.com/${user.twitterHandle}/status/${props.id}`},
           React.createElement('div', {className: 'msg'}, `${props.message}`))
       )
     );
@@ -28,14 +29,10 @@ class Tweets extends React.Component {
     let timelineList = this.props.timelineList;
     for(let i = 0; i < timelineList.length; i++) {
       let props = {
-        name: timelineList[i].twitterUser.name,
-        twitterHandle: timelineList[i].twitterUser.twitterHandle,
-        profileImageUrl: timelineList[i].twitterUser.profileImageUrl,
-        createdAt: timelineList[i].createdAt,
-        id: timelineList[i].id,
-        message: timelineList[i].message,
+        key: i,
+        tweet: timelineList[i],
       };
-      tweets.push(React.createElement(Tweet, {key: i, props: props}));
+      tweets.push(React.createElement(Tweet, props));
     }
     return tweets;
   }
