@@ -141,26 +141,32 @@ class Tweet extends React.Component {
   }
 }
 
+class Tweets extends React.Component {
+  render() {
+    let tweets = [];
+    let timelineList = this.props.timelineList;
+    for(let i = 0; i < timelineList.length; i++) {
+      let user = timelineList[i].twitterUser;
+      let content= timelineList[i];
+      tweets.push(React.createElement(Tweet, {key: i, user: user, content: content}, null));
+    }
+    return tweets;
+  }
+}
+
 function getTL(){
-  document.getElementById("TL").innerHTML = "";
   const xmlHttp = new XMLHttpRequest();
   xmlHttp.onreadystatechange = () => {
     if(xmlHttp.readyState === XMLHttpRequest.DONE){
       if(xmlHttp.status === 200){
         const timelineList = JSON.parse(xmlHttp.responseText);
-        for(let i = 0; i < timelineList.length; i++) {
-          let user = timelineList[i].twitterUser;
-          let content= timelineList[i];
-          ReactDOM.render(React.createElement(Tweet, {user: user, content: content}, null), document.getElementById('TL'));
-        }
+        ReactDOM.render(React.createElement(Tweets, {timelineList: timelineList}, null), document.getElementById('TL'));
       }
     }
   }
   xmlHttp.open("GET", "http://localhost:8080/api/1.0/twitter/timeline", true);
   xmlHttp.send();
 }
-
-
 
 document.addEventListener("DOMContentLoaded", () => {
   getTL();
