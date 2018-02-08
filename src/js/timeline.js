@@ -85,59 +85,25 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-class User extends React.Component {
-  render() {
-    return React.createElement('div', {className: 'userInfo'}, React.createElement(ProfilePic, {user: this.props.user}, null), React.createElement(UserName, {user: this.props.user}, null), React.createElement(UserHandle, {user: this.props.user}, null));
-  }
-}
-
-class ProfilePic extends React.Component {
-  render() {
-    return React.createElement('div', {className: 'img'}, React.createElement(Picture, {user: this.props.user}, null));
-  }
-}
-
-class Picture extends React.Component {
-  render() {
-    return React.createElement('img', {src: `${this.props.user.profileImageUrl}`, className: 'img-circle'}, null);
-  }
-}
-
-class UserName extends React.Component {
-  render() {
-    return React.createElement('div', {className: 'name'}, `${this.props.user.name}`);
-  }
-}
-
-class UserHandle extends React.Component {
-  render() {
-    return React.createElement('div', {className: 'handle'}, `@${this.props.user.twitterHandle}`);
-  }
-}
-
-class Content extends React.Component {
-  render() {
-    return React.createElement('div', {className: 'content'}, React.createElement(TweetDate, {content: this.props.content}, null), React.createElement(TweetMessage, {content: this.props.content}, null));
-  }
-}
-
-class TweetDate extends React.Component {
+class Tweet extends React.Component {
   render() {
     let date = new Date(this.props.content.createdAt);
     let formattedDate = date.toLocaleDateString("en-US", {month:"short", day:"2-digit"});
-    return React.createElement('div', {className: 'date'}, formattedDate);
-  }
-}
-
-class TweetMessage extends React.Component {
-  render() {
-    return React.createElement('div', {className: 'msg'}, `${this.props.content.message}`)
-  }
-}
-
-class Tweet extends React.Component {
-  render() {
-    return React.createElement('div', {className: 'tweet'}, React.createElement(User, {user: this.props.user}, null), React.createElement(Content, {content: this.props.content}, null));
+    let user = this.props.content.twitterUser;
+    let content = this.props.content;
+    return React.createElement('div', {className: 'tweet'},
+      React.createElement('div', {className: 'userInfo'},
+        React.createElement('div', {className: 'img'},
+          React.createElement('img', {src: `${user.profileImageUrl}`, className: 'img-circle'}, null)),
+        React.createElement('div', {className: 'name'}, `${user.name}`),
+        React.createElement('div', {className: 'handle'}, `@${user.twitterHandle}`)
+      ),
+      React.createElement('div', {className: 'content'},
+        React.createElement('div', {className: 'date'}, formattedDate),
+        React.createElement('a', {className: 'link', target: '_blank', href: `https://twitter.com/${user.twitterHandle}/status/${content.id}`},
+          React.createElement('div', {className: 'msg'}, `${content.message}`))
+      )
+    );
   }
 }
 
@@ -146,9 +112,8 @@ class Tweets extends React.Component {
     let tweets = [];
     let timelineList = this.props.timelineList;
     for(let i = 0; i < timelineList.length; i++) {
-      let user = timelineList[i].twitterUser;
       let content= timelineList[i];
-      tweets.push(React.createElement(Tweet, {key: i, user: user, content: content}, null));
+      tweets.push(React.createElement(Tweet, {key: i, content: content}, null));
     }
     return tweets;
   }
@@ -161,6 +126,8 @@ function getTL(){
       if(xmlHttp.status === 200){
         const timelineList = JSON.parse(xmlHttp.responseText);
         ReactDOM.render(React.createElement(Tweets, {timelineList: timelineList}, null), document.getElementById('TL'));
+      } else {
+        ReactDOM.render(React.createElement('div', null, "Error Communicating with localhost:8080"), document.getElementById('TL'));
       }
     }
   }
@@ -170,7 +137,7 @@ function getTL(){
 
 document.addEventListener("DOMContentLoaded", () => {
   getTL();
-  document.getElementById("refreshTL").addEventListener("click", () => {
+  document.getElementById('refreshTL').addEventListener("click", () => {
     getTL();
   });
 });
