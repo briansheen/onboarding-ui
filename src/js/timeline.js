@@ -1,6 +1,15 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
+class Refresh extends React.Component {
+  refreshTimeline() {
+    getTL();
+  }
+  render() {
+    return React.createElement('button', {id: 'refreshTL', type: 'button', onClick: this.refreshTimeline}, "Refresh Timeline");
+  }
+}
+
 class Avatar extends React.Component {
   render() {
     let user = this.props;
@@ -51,7 +60,8 @@ function getTL(){
     if(xmlHttp.readyState === XMLHttpRequest.DONE){
       if(xmlHttp.status === 200){
         const timelineList = JSON.parse(xmlHttp.responseText);
-        ReactDOM.render(React.createElement(Tweets, {timelineList: timelineList}, null), document.getElementById('TL'));
+        ReactDOM.render(React.createElement(Tweets, {timelineList: timelineList}), document.getElementById('TL'));
+        ReactDOM.render(React.createElement(Refresh), document.getElementById('refreshTL'));
       } else {
         ReactDOM.render(React.createElement('div', null, "Error Communicating with localhost:8080"), document.getElementById('TL'));
       }
@@ -63,7 +73,4 @@ function getTL(){
 
 document.addEventListener("DOMContentLoaded", () => {
   getTL();
-  document.getElementById('refreshTL').addEventListener("click", () => {
-    getTL();
-  });
 });
