@@ -1,9 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-class UpdateTLButton extends React.Component {
+class UpdateTimelineButton extends React.Component {
   refreshTimeline() {
-    getTL();
+    getTimeline();
   }
   render() {
     return React.createElement('button',
@@ -59,16 +59,16 @@ class Tweets extends React.Component {
   }
 }
 
-function getTL(){
+function getTimeline(){
   const xmlHttp = new XMLHttpRequest();
   xmlHttp.onreadystatechange = () => {
     if(xmlHttp.readyState === XMLHttpRequest.DONE){
       if(xmlHttp.status === 200){
         const timelineList = JSON.parse(xmlHttp.responseText);
-        ReactDOM.render(React.createElement(UpdateTLButton), document.getElementById('refreshTL'));
-        ReactDOM.render(React.createElement(Tweets, {timelineList: timelineList}), document.getElementById('TL'));
+        ReactDOM.render(React.createElement(UpdateTimelineButton), document.getElementById('refreshTimeline'));
+        ReactDOM.render(React.createElement(Tweets, {timelineList: timelineList}), document.getElementById('Timeline'));
       } else {
-        ReactDOM.render(React.createElement('div', null, "Error Communicating with localhost:8080"), document.getElementById('TL'));
+        ReactDOM.render(React.createElement('div', null, "Error Communicating with localhost:8080"), document.getElementById('Timeline'));
       }
     }
   }
@@ -77,5 +77,5 @@ function getTL(){
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  getTL();
+  getTimeline();
 });
