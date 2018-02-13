@@ -1,18 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-class UpdateTimelineButton extends React.Component {
-  refreshTimeline() {
-    getTimeline();
-  }
-  render() {
-    return React.createElement('button',
-      {
-        type: 'button',
-        onClick: this.refreshTimeline
-      },
-      "Refresh Timeline");
-  }
+function UpdateTimelineButton(props) {
+  return React.createElement('button',
+    {
+      type: 'button',
+      onClick: props.onClick,
+    },
+    "Refresh Timeline");
 }
 
 class Avatar extends React.Component {
@@ -45,37 +40,64 @@ class Tweet extends React.Component {
 }
 
 class Tweets extends React.Component {
-  render() {
+  constructor(props){
+    console.log("in constructor");
+    super(props);
+    this.state = {
+      timeline: this.getTimeline(),
+    }
+    console.log("state" + this.state);
+  }
+
+  getTimeline() {
+    console.log("in getTimeline");
+    const xmlHttp = new XMLHttpRequest();
+    xmlHttp.onreadystatechange = () => {
+      if(xmlHttp.readyState === XMLHttpRequest.DONE){
+        console.log("xml request DONE");
+        if(xmlHttp.status === 200){
+          this.setState({
+            timeline: JSON.parse(xmlHttp.responseText),
+          });
+          return;
+        } else {
+          this.setState({
+            timeline: null,
+          });
+          return;
+        }
+      }
+    }
+    xmlHttp.open("GET", "http://localhost:8080/api/1.0/twitter/timeline", true);
+    xmlHttp.send();
+  }
+
+  renderTimeline(timeline){
     let tweets = [];
-    let timelineList = this.props.timelineList;
-    for(let i = 0; i < timelineList.length; i++) {
+    console.log("inside render getimline!");
+    for(let i = 0; i < timeline.length; i++) {
       let props = {
         key: i,
-        tweet: timelineList[i],
+        tweet: timeline[i],
       };
       tweets.push(React.createElement(Tweet, props));
     }
     return tweets;
   }
-}
 
-function getTimeline(){
-  const xmlHttp = new XMLHttpRequest();
-  xmlHttp.onreadystatechange = () => {
-    if(xmlHttp.readyState === XMLHttpRequest.DONE){
-      if(xmlHttp.status === 200){
-        const timelineList = JSON.parse(xmlHttp.responseText);
-        ReactDOM.render(React.createElement(UpdateTimelineButton), document.getElementById('refreshTimeline'));
-        ReactDOM.render(React.createElement(Tweets, {timelineList: timelineList}), document.getElementById('Timeline'));
-      } else {
-        ReactDOM.render(React.createElement('div', null, "Error Communicating with localhost:8080"), document.getElementById('Timeline'));
-      }
+  render() {
+    let timeline = this.state.timeline;
+    console.log("rendering " + timeline);
+    if(this.state.timeline){
+      return React.createElement('div', null,
+        React.createElement(UpdateTimelineButton, {onClick: this.getTimeline}),
+        React.createElement('div', {id: 'timeline'}, this.renderTimeline(timeline)));
+    } else {
+      return React.createElement('div',null,"Error Communicating with localhost:8080");
     }
   }
-  xmlHttp.open("GET", "http://localhost:8080/api/1.0/twitter/timeline", true);
-  xmlHttp.send();
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  getTimeline();
+  ReactDOM.render(React.createElement(Tweets), document.getElementById('root'));
 });
