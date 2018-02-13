@@ -85,7 +85,7 @@ class Tweets extends React.Component {
     let timeline = this.state.timeline;
     if(this.state.timeline){
       return React.createElement('div', null,
-        React.createElement(UpdateTimelineButton, {onClick: this.getTimeline}),
+        React.createElement(UpdateTimelineButton, {onClick: ()=>this.getTimeline()}),
         React.createElement('div', {id: 'timeline'}, this.renderTimeline(timeline)));
     } else {
       return React.createElement('div', null, 'Error Communicating with localhost:8080');
