@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+var _ = require('lodash');
 
 function UpdateTimelineButton(props) {
   return React.createElement('button',
@@ -67,13 +68,12 @@ class Tweets extends React.Component {
 
   renderTimeline(timeline){
     let tweets = [];
-    for(let i = 0; i < timeline.length; i++) {
+    _.forEach(timeline, (tweet) => {
       let props = {
-        key: i,
-        tweet: timeline[i],
-      };
+        tweet: tweet
+      }
       tweets.push(React.createElement(Tweet, props));
-    }
+    });
     return tweets;
   }
 
