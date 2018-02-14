@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-var _ = require('lodash');
+import _ from "lodash";
 
 function UpdateTimelineButton(props) {
   return React.createElement('button',
@@ -56,31 +56,32 @@ class Tweets extends React.Component {
   }
 
   getTimeline() {
-    return new Promise((resolve, reject)=>{
+    return new Promise((resolve, reject) =>
       fetch('http://localhost:8080/api/1.0/twitter/timeline')
-        .then(res => res.json())
-        .then(res => resolve(res))
-        .catch(err => {
-          reject(null);
-        });
-    });
+      .then(res => res.json())
+      .then(res => resolve(res))
+      .catch(err => reject(null))
+    );
   }
 
   renderTimeline(timeline){
     let tweets = [];
-    _.forEach(timeline, (tweet) => {
+    let i = 0;
+    _.forEach(timeline, tweet => {
       let props = {
+        key: i,
         tweet: tweet
       }
       tweets.push(React.createElement(Tweet, props));
+      i += 1;
     });
     return tweets;
   }
 
   getAndSetTimeline(){
     this.getTimeline()
-      .then((data) => this.setTimeline(data))
-      .catch((data) => this.setTimeline(data));
+      .then(res => this.setTimeline(res))
+      .catch(err => this.setTimeline(err));
   }
 
   render() {
