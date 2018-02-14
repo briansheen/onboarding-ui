@@ -55,19 +55,13 @@ class Tweets extends React.Component {
   }
 
   getTimeline() {
-    return new Promise(function(resolve, reject){
-      const xmlHttp = new XMLHttpRequest();
-      xmlHttp.onreadystatechange = () => {
-        if(xmlHttp.readyState === XMLHttpRequest.DONE){
-          if(xmlHttp.status === 200){
-            resolve(JSON.parse(xmlHttp.responseText));
-          } else {
-            reject(null);
-          }
-        }
-      }
-      xmlHttp.open('GET', 'http://localhost:8080/api/1.0/twitter/timeline', true);
-      xmlHttp.send();
+    return new Promise((resolve, reject)=>{
+      fetch('http://localhost:8080/api/1.0/twitter/timeline')
+        .then(res => res.json())
+        .then(res => resolve(res))
+        .catch(err => {
+          reject(null);
+        });
     });
   }
 
