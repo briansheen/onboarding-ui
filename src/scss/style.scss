@@ -69,11 +69,13 @@ $odd-tweet: #e8f5fd;
 
 .timeline {
   float: left;
+  clear: left;
   width: 50%;
 }
 
 .myTweets {
   float: right;
+  clear: right;
   width: 50%;
 }
 
