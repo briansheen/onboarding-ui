@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import _ from "lodash";
 
 function UpdateTimelineButton(props) {
   return React.createElement('button',
@@ -45,51 +46,53 @@ class Tweets extends React.Component {
     this.state = {
       timeline: null,
     }
-    this.getTimeline();
+    this.getAndSetTimeline();
+  }
+
+  setTimeline(timeline) {
+    this.setState({
+      timeline: timeline,
+    });
   }
 
   getTimeline() {
-    const xmlHttp = new XMLHttpRequest();
-    xmlHttp.onreadystatechange = () => {
-      if(xmlHttp.readyState === XMLHttpRequest.DONE){
-        if(xmlHttp.status === 200){
-          this.setState({
-            timeline: JSON.parse(xmlHttp.responseText),
-          });
-          return;
-        } else {
-          this.setState({
-            timeline: null,
-          });
-          return;
-        }
-      }
-    }
-    xmlHttp.open('GET', 'http://localhost:8080/api/1.0/twitter/timeline', true);
-    xmlHttp.send();
+    return new Promise((resolve, reject) =>
+      fetch('http://localhost:8080/api/1.0/twitter/timeline')
+      .then(res => res.json())
+      .then(res => resolve(res))
+      .catch(err => reject(null))
+    );
   }
 
   renderTimeline(timeline){
     let tweets = [];
-    for(let i = 0; i < timeline.length; i++) {
+    let i = 0;
+    _.forEach(timeline, tweet => {
       let props = {
         key: i,
-        tweet: timeline[i],
-      };
+        tweet: tweet
+      }
       tweets.push(React.createElement(Tweet, props));
-    }
+      i += 1;
+    });
     return tweets;
+  }
+
+  getAndSetTimeline(){
+    this.getTimeline()
+      .then(res => this.setTimeline(res))
+      .catch(err => this.setTimeline(err));
   }
 
   render() {
     let timeline = this.state.timeline;
     if(this.state.timeline){
       return React.createElement('div', null,
-        React.createElement(UpdateTimelineButton, {onClick: ()=>this.getTimeline()}),
+        React.createElement(UpdateTimelineButton, {onClick: () => this.getAndSetTimeline()}),
         React.createElement('div', {id: 'timeline'}, this.renderTimeline(timeline)));
     } else {
       return React.createElement('div', null,
-        React.createElement(UpdateTimelineButton, {onClick: ()=>this.getTimeline()}),
+        React.createElement(UpdateTimelineButton, {onClick: () => this.getAndSetTimeline()}),
         React.createElement('div', null, 'Error Communicating with localhost:8080'));
     }
   }
