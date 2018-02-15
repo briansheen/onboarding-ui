@@ -11,6 +11,15 @@ function UpdateTimelineButton(props) {
     'Refresh Timeline');
 }
 
+function UpdateMyTweetsButton(props) {
+  return React.createElement('button',
+    {
+      type: 'button',
+      onClick: props.onClick,
+    },
+    'Refresh My Tweets');
+}
+
 class Avatar extends React.Component {
   render() {
     let user = this.props;
@@ -40,7 +49,7 @@ class Tweet extends React.Component {
   }
 }
 
-class Tweets extends React.Component {
+class Timeline extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -87,14 +96,84 @@ class Tweets extends React.Component {
   render() {
     let timeline = this.state.timeline;
     if(this.state.timeline){
-      return React.createElement('div', null,
+      return React.createElement('div', {className: 'timeline'},
         React.createElement(UpdateTimelineButton, {onClick: () => this.getAndSetTimeline()}),
         React.createElement('div', {id: 'timeline'}, this.renderTimeline(timeline)));
     } else {
-      return React.createElement('div', null,
+      return React.createElement('div', {className: 'timeline'},
         React.createElement(UpdateTimelineButton, {onClick: () => this.getAndSetTimeline()}),
         React.createElement('div', null, 'Error Communicating with localhost:8080'));
     }
+  }
+}
+
+class MyTweets extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      myTweets: null,
+    };
+    this.getAndSetMyTweets();
+  }
+
+  getMyTweets() {
+    return new Promise((resolve, reject) => {
+      fetch('http://localhost:8080/api/1.0/twitter/mytweets')
+      .then(res => res.json())
+      .then(res => resolve(res))
+      .catch(err => reject(null))
+    });
+  }
+
+  setMyTweets(myTweets) {
+    this.setState({
+      myTweets: myTweets,
+    });
+  }
+
+  getAndSetMyTweets() {
+    this.getMyTweets()
+      .then(res => this.setMyTweets(res))
+      .catch(err => this.setMyTweets(err));
+  }
+
+  renderMyTweets(myTweets) {
+    let tweets = [];
+    let i = 0;
+    if(myTweets.length > 0) {
+      _.forEach(myTweets, tweet => {
+        let props = {
+          key: i,
+          tweet: tweet,
+        };
+        tweets.push(React.createElement(Tweet, props));
+        i += 1;
+      });
+    } else {
+      tweets.push('No tweets are available, post a tweet!');
+    }
+    return tweets;
+  }
+
+  render() {
+    let myTweets = this.state.myTweets;
+    if(myTweets){
+      return React.createElement('div', {className: 'myTweets'},
+        React.createElement(UpdateMyTweetsButton, {onClick: () => this.getAndSetMyTweets()}),
+        React.createElement('div', {id: 'myTweets'}, this.renderMyTweets(myTweets)));
+    } else {
+      return React.createElement('div', {className: 'myTweets'},
+        React.createElement(UpdateMyTweetsButton, {onClick: () => this.getAndSetMyTweets()}),
+        React.createElement('div', null, 'Error Communicating with localhost:8080'));
+    }
+  }
+}
+
+class Tweets extends React.Component {
+  render() {
+    return React.createElement('div', null,
+      React.createElement(Timeline),
+      React.createElement(MyTweets));
   }
 }
 
