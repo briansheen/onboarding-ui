@@ -11,22 +11,24 @@
   margin: 10px 5px;
 }
 
+@mixin myTweetsMargin {
+  margin: 0px 5px;
+}
+
+@mixin timelineMargin {
+  margin: 0px 5px;
+}
+
 $border-color: #d3d3d3;
-$even-tweet: #e9e9e9;
-$odd-tweet: #e8f5fd;
+$timeline-even-tweet: #e9e9e9;
+$timeline-odd-tweet: #e8f5fd;
+$mytweets-even-tweet: #f5f8fa;
+$mytweets-odd-tweet: #1da1f2;
 
 .tweet {
   height: 110px;
   border-bottom: 1px solid $border-color;
   overflow: scroll;
-
-  &:nth-of-type(even){
-    background-color: $even-tweet;
-  }
-
-  &:nth-of-type(odd){
-    background-color: $odd-tweet;
-  }
 
   .userInfo{
     float: left;
@@ -59,24 +61,58 @@ $odd-tweet: #e8f5fd;
   }
 }
 
+.timeline {
+  .timelineHeader{
+    @include timelineMargin
+  }
+  .timelineButton{
+    @include timelineMargin
+  }
+}
+
 #timeline {
   @include tweetList
+  .tweet {
+    &:nth-of-type(even){
+      background-color: $timeline-even-tweet;
+    }
+    &:nth-of-type(odd){
+      background-color: $timeline-odd-tweet;
+    }
+  }
+}
+
+.myTweets {
+  .myTweetsHeader{
+    @include myTweetsMargin
+  }
+  .myTweetsButton{
+    @include myTweetsMargin
+  }
 }
 
 #myTweets {
   @include tweetList
+  .tweet {
+    &:nth-of-type(even){
+      background-color: $mytweets-even-tweet;
+    }
+    &:nth-of-type(odd){
+      background-color: $mytweets-odd-tweet;
+    }
+  }
 }
 
 .timeline {
   float: left;
   clear: left;
-  width: 50%;
+  width: 60%;
 }
 
 .myTweets {
   float: right;
   clear: right;
-  width: 50%;
+  width: 40%;
 }
 
 .content {
