@@ -61,58 +61,54 @@ $mytweets-odd-tweet: #1da1f2;
   }
 }
 
-.timeline {
-  .timelineHeader{
-    @include timelineMargin
-  }
-  .timelineButton{
-    @include timelineMargin
-  }
-}
-
-#timeline {
-  @include tweetList
-  .tweet {
-    &:nth-of-type(even){
-      background-color: $timeline-even-tweet;
+#timelineColumn {
+  .timeline {
+    float: left;
+    clear: left;
+    width: 60%;
+    .timelineHeader {
+      @include timelineMargin
     }
-    &:nth-of-type(odd){
-      background-color: $timeline-odd-tweet;
+    .timelineButton {
+      @include timelineMargin
     }
   }
-}
-
-.myTweets {
-  .myTweetsHeader{
-    @include myTweetsMargin
-  }
-  .myTweetsButton{
-    @include myTweetsMargin
-  }
-}
-
-#myTweets {
-  @include tweetList
-  .tweet {
-    &:nth-of-type(even){
-      background-color: $mytweets-even-tweet;
-    }
-    &:nth-of-type(odd){
-      background-color: $mytweets-odd-tweet;
+  .tweetList {
+    @include tweetList
+    .tweet {
+      &:nth-of-type(even) {
+        background-color: $timeline-even-tweet;
+      }
+      &:nth-of-type(odd) {
+        background-color: $timeline-odd-tweet;
+      }
     }
   }
 }
 
-.timeline {
-  float: left;
-  clear: left;
-  width: 60%;
-}
-
-.myTweets {
-  float: right;
-  clear: right;
-  width: 40%;
+#userTweetsColumn {
+  .myTweets {
+    float: right;
+    clear: right;
+    width: 40%;
+    .myTweetsHeader {
+      @include myTweetsMargin
+    }
+    .myTweetsButton {
+      @include myTweetsMargin
+    }
+  }
+  .tweetList {
+    @include tweetList
+    .tweet {
+      &:nth-of-type(even) {
+        background-color: $mytweets-even-tweet;
+      }
+      &:nth-of-type(odd) {
+        background-color: $mytweets-odd-tweet;
+      }
+    }
+  }
 }
 
 .content {

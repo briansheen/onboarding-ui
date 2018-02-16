@@ -12,14 +12,24 @@ function UpdateListButton(props) {
     props.button.text);
 }
 
+class Handle extends React.Component {
+  render() {
+    if(this.props.isHomeTimeline) {
+      return React.createElement('div', {className: 'handle'}, `@${this.props.twitterHandle}`);
+    } else {
+      return null;
+    }
+  }
+}
+
 class Avatar extends React.Component {
   render() {
-    let user = this.props;
+    let user = this.props.user;
     return React.createElement('div', {className: 'userInfo'},
       React.createElement('div', {className: 'img'},
         React.createElement('img', {src: `${user.profileImageUrl}`, className: 'img-circle'})),
       React.createElement('div', {className: 'name'}, `${user.name}`),
-      React.createElement('div', {className: 'handle'}, `@${user.twitterHandle}`)
+      React.createElement(Handle, {twitterHandle: user.twitterHandle, isHomeTimeline: this.props.isHomeTimeline})
     );
   }
 }
@@ -31,7 +41,7 @@ class Tweet extends React.Component {
     let date = new Date(tweet.createdAt);
     let formattedDate = date.toLocaleDateString('en-US', {month:'short', day:'2-digit'});
     return React.createElement('div', {className: 'tweet'},
-      React.createElement(Avatar, user),
+      React.createElement(Avatar, {user: user, isHomeTimeline: this.props.isHomeTimeline}),
       React.createElement('div', {className: 'content'},
         React.createElement('div', {className: 'date'}, formattedDate),
         React.createElement('a', {className: 'link', target: '_blank', href: `https://twitter.com/${user.twitterHandle}/status/${tweet.id}`},
@@ -71,7 +81,7 @@ class TweetList extends React.Component {
       .catch(err => this.setTweetList(err));
   }
 
-  renderTweetList(tweetList, emptyMsg) {
+  renderTweetList(tweetList, isHomeTimeline, emptyMsg) {
     let tweets = [];
     let i = 0;
     if(tweetList.length > 0) {
@@ -79,6 +89,7 @@ class TweetList extends React.Component {
         let props = {
           key: i,
           tweet: tweet,
+          isHomeTimeline: isHomeTimeline,
         };
         tweets.push(React.createElement(Tweet, props));
         i += 1;
@@ -95,11 +106,11 @@ class TweetList extends React.Component {
       return React.createElement('div', {className: this.props.className},
         React.createElement('h1', {className: this.props.headerClass}, this.props.headerMsg),
         React.createElement(UpdateListButton, {button: this.props.button, onClick: () => this.getAndSetTweetList(this.props.http)}),
-        React.createElement('div', {id: this.props.tweetsId}, this.renderTweetList(tweetList, this.props.tweetsEmptyMsg)));
+        React.createElement('div', {className: 'tweetList'}, this.renderTweetList(tweetList, this.props.isHomeTimeline, this.props.tweetsEmptyMsg)));
     } else {
       return React.createElement('div', {className: this.props.className},
         React.createElement('h1', {className: this.props.headerClass}, this.props.headerMsg),
-        React.createElement(UpdateListButton, {button: this.props.button, onClick: () => this.getAndSetMyTweets(this.props.http)}),
+        React.createElement(UpdateListButton, {button: this.props.button, onClick: () => this.getAndSetTweetList(this.props.http)}),
         React.createElement('div', null, 'Error Communicating with localhost:8080'));
     }
   }
@@ -110,27 +121,27 @@ document.addEventListener('DOMContentLoaded', () => {
     {
       className: 'timeline',
       http: 'http://localhost:8080/api/1.0/twitter/timeline',
-      tweetsId: 'timeline',
       headerClass: 'timelineHeader',
       headerMsg: 'My Home Timeline',
       tweetsEmptyMsg: 'No tweets are available, follow someone!',
       button: {
         className: 'timelineButton',
         text: 'Refresh Timeline',
-      }
+      },
+      isHomeTimeline: true,
     }), document.getElementById('timelineColumn'));
-    
+
   ReactDOM.render(React.createElement(TweetList,
     {
       className: 'myTweets',
       http: 'http://localhost:8080/api/1.0/twitter/mytweets',
-      tweetsId: 'myTweets',
       headerClass: 'myTweetsHeader',
       headerMsg: 'My Posted Tweets',
       tweetsEmptyMsg: 'No tweets are available, post a tweet!',
       button: {
         className: 'myTweetsButton',
         text: 'Refresh My Tweets',
-      }
+      },
+      isHomeTimeline: false,
     }), document.getElementById('userTweetsColumn'));
 });
