@@ -62,14 +62,14 @@ $mytweets-odd-tweet: #1da1f2;
 }
 
 #timelineColumn {
-  .timeline {
+  .tweets {
     float: left;
     clear: both;
     width: 60%;
-    .timelineHeader {
+    .header {
       @include timelineMargin
     }
-    .timelineButton {
+    .tweetsButton {
       @include timelineMargin
     }
   }
@@ -87,13 +87,13 @@ $mytweets-odd-tweet: #1da1f2;
 }
 
 #userTweetsColumn {
-  .myTweets {
+  .tweets {
     float: left;
     width: 40%;
-    .myTweetsHeader {
+    .header {
       @include myTweetsMargin
     }
-    .myTweetsButton {
+    .tweetsButton {
       @include myTweetsMargin
     }
   }
