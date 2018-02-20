@@ -2,35 +2,21 @@ import React from "react";
 import ReactDOM from "react-dom";
 import _ from "lodash";
 
-function UpdateListButton(props) {
-  return React.createElement('button',
-    {
-      type: 'button',
-      onClick: props.onClick,
-      className: props.button.className,
-    },
-    props.button.text);
-}
-
-class Handle extends React.Component {
-  render() {
-    if(this.props.isHomeTimeline) {
-      return React.createElement('div', {className: 'handle'}, `@${this.props.twitterHandle}`);
-    } else {
-      return null;
-    }
-  }
-}
-
 class Avatar extends React.Component {
   render() {
     let user = this.props.user;
-    return React.createElement('div', {className: 'userInfo'},
-      React.createElement('div', {className: 'img'},
-        React.createElement('img', {src: `${user.profileImageUrl}`, className: 'img-circle'})),
-      React.createElement('div', {className: 'name'}, `${user.name}`),
-      React.createElement(Handle, {twitterHandle: user.twitterHandle, isHomeTimeline: this.props.isHomeTimeline})
-    );
+    if(this.props.isHomeTimeline) {
+      return React.createElement('div', {className: 'userInfo'},
+        React.createElement('div', {className: 'img'},
+          React.createElement('img', {src: `${user.profileImageUrl}`, className: 'img-circle'})),
+        React.createElement('div', {className: 'name'}, `${user.name}`),
+        React.createElement('div', {className: 'handle'}, `@${user.twitterHandle}`));
+    } else {
+      return React.createElement('div', {className: 'userInfo'},
+        React.createElement('div', {className: 'img'},
+          React.createElement('img', {src: `${user.profileImageUrl}`, className: 'img-circle'})),
+        React.createElement('div', {className: 'name'}, `${user.name}`));
+    }
   }
 }
 
@@ -57,28 +43,20 @@ class TweetList extends React.Component {
     this.state = {
       tweetList: null,
     };
-    this.getAndSetTweetList(props.http);
+    this.getAndSetTweetList(props.url);
   }
 
-  getTweetList(http) {
-    return new Promise((resolve, reject) => {
-      fetch(http)
+  getAndSetTweetList(url) {
+      fetch(url)
       .then(res => res.json())
-      .then(res => resolve(res))
-      .catch(err => reject(null))
-    });
+      .then(res => this.setTweetList(res))
+      .catch(err => this.setTweetList(null));
   }
 
   setTweetList(tweetList) {
     this.setState({
       tweetList: tweetList,
     });
-  }
-
-  getAndSetTweetList(http) {
-    this.getTweetList(http)
-      .then(res => this.setTweetList(res))
-      .catch(err => this.setTweetList(err));
   }
 
   renderTweetList(tweetList, isHomeTimeline, emptyMsg) {
@@ -105,12 +83,12 @@ class TweetList extends React.Component {
     if(tweetList){
       return React.createElement('div', {className: this.props.className},
         React.createElement('h1', {className: this.props.headerClass}, this.props.headerMsg),
-        React.createElement(UpdateListButton, {button: this.props.button, onClick: () => this.getAndSetTweetList(this.props.http)}),
+        React.createElement('button', {type: 'button', className: this.props.button.className, onClick: () => this.getAndSetTweetList(this.props.url)}, this.props.button.text),
         React.createElement('div', {className: 'tweetList'}, this.renderTweetList(tweetList, this.props.isHomeTimeline, this.props.tweetsEmptyMsg)));
     } else {
       return React.createElement('div', {className: this.props.className},
         React.createElement('h1', {className: this.props.headerClass}, this.props.headerMsg),
-        React.createElement(UpdateListButton, {button: this.props.button, onClick: () => this.getAndSetTweetList(this.props.http)}),
+        React.createElement('button', {type: 'button', className: this.props.button.className, onClick: () => this.getAndSetTweetList(this.props.url)}, this.props.button.text),
         React.createElement('div', null, 'Error Communicating with localhost:8080'));
     }
   }
@@ -120,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(React.createElement(TweetList,
     {
       className: 'timeline',
-      http: 'http://localhost:8080/api/1.0/twitter/timeline',
+      url: 'http://localhost:8080/api/1.0/twitter/timeline',
       headerClass: 'timelineHeader',
       headerMsg: 'My Home Timeline',
       tweetsEmptyMsg: 'No tweets are available, follow someone!',
@@ -134,7 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(React.createElement(TweetList,
     {
       className: 'myTweets',
-      http: 'http://localhost:8080/api/1.0/twitter/mytweets',
+      url: 'http://localhost:8080/api/1.0/twitter/mytweets',
       headerClass: 'myTweetsHeader',
       headerMsg: 'My Posted Tweets',
       tweetsEmptyMsg: 'No tweets are available, post a tweet!',
