@@ -90,12 +90,13 @@ class TweetList extends React.Component {
     let tweetList = this.state.tweetList;
     console.log(tweetList);
     return React.createElement('div', {className: 'tweets'},
-      React.createElement('h1', {className: 'header'}, this.props.headerMsg),
-      React.createElement('button', {type: 'button', className: 'tweetsButton', onClick: () => this.getAndSetTweetList(this.props.url)}, this.props.buttonText),
-      this.props.isHomeTimeline ? React.createElement('span', {className: 'filterTweetSpan'},
-        React.createElement('input', {type: 'text', id: 'filter'}),
-        React.createElement('button', {type: 'button', className: 'filterButton', onClick: () => this.getAndSetFilteredTweets(this.props.filterUrl, this.props.url)}, 'Filter')) : null,
-      tweetList ? React.createElement('div', {className: 'tweetList'}, this.renderTweetList(tweetList, this.props.isHomeTimeline, this.props.tweetsEmptyMsg)) : React.createElement('div', null, 'Error Communicating with localhost:8080'));
+      React.createElement('div', {className: 'tweetListWrapper'},
+        React.createElement('h1', {className: 'header'}, this.props.headerMsg),
+        React.createElement('button', {type: 'button', className: 'tweetsButton', onClick: () => this.getAndSetTweetList(this.props.url)}, this.props.buttonText),
+        this.props.isHomeTimeline ? React.createElement('div', {className: 'filterTweetDiv'},
+          React.createElement('input', {type: 'text', id: 'filter'}),
+          React.createElement('button', {type: 'button', className: 'filterButton', onClick: () => this.getAndSetFilteredTweets(this.props.filterUrl, this.props.url)}, 'Filter')) : null,
+        tweetList ? React.createElement('div', {className: 'tweetList'}, this.renderTweetList(tweetList, this.props.isHomeTimeline, this.props.tweetsEmptyMsg)) : React.createElement('div', null, 'Error Communicating with localhost:8080')));
   }
 }
 
