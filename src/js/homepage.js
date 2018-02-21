@@ -41,6 +41,12 @@ class TweetList extends React.Component {
 
   getAndSetTweetList(url) {
       fetch(url)
+      .then(res => {
+        if(!res.ok){
+          throw Error();
+        }
+        return res;
+      })
       .then(res => res.json())
       .then(res => this.setTweetList(res))
       .catch(err => this.setTweetList(null));
@@ -71,11 +77,24 @@ class TweetList extends React.Component {
     return tweets;
   }
 
+  getAndSetFilteredTweets(filterUrl, url) {
+    let filter = document.getElementById('filter').value;
+    if(filter) {
+      this.getAndSetTweetList(filterUrl+filter);
+    } else {
+      this.getAndSetTweetList(url);
+    }
+  }
+
   render() {
     let tweetList = this.state.tweetList;
+    console.log(tweetList);
     return React.createElement('div', {className: 'tweets'},
       React.createElement('h1', {className: 'header'}, this.props.headerMsg),
       React.createElement('button', {type: 'button', className: 'tweetsButton', onClick: () => this.getAndSetTweetList(this.props.url)}, this.props.buttonText),
+      this.props.isHomeTimeline ? React.createElement('span', {className: 'filterTweetSpan'},
+        React.createElement('input', {type: 'text', id: 'filter'}),
+        React.createElement('button', {type: 'button', className: 'filterButton', onClick: () => this.getAndSetFilteredTweets(this.props.filterUrl, this.props.url)}, 'Filter')) : null,
       tweetList ? React.createElement('div', {className: 'tweetList'}, this.renderTweetList(tweetList, this.props.isHomeTimeline, this.props.tweetsEmptyMsg)) : React.createElement('div', null, 'Error Communicating with localhost:8080'));
   }
 }
@@ -84,8 +103,9 @@ document.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(React.createElement(TweetList,
     {
       url: 'http://localhost:8080/api/1.0/twitter/timeline',
+      filterUrl: 'http://localhost:8080/api/1.0/twitter/filter?filter=',
       headerMsg: 'My Home Timeline',
-      tweetsEmptyMsg: 'No tweets are available, follow someone!',
+      tweetsEmptyMsg: 'No tweets are available',
       buttonText: 'Refresh Timeline',
       isHomeTimeline: true,
     }), document.getElementById('timelineColumn'));

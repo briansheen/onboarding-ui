@@ -72,6 +72,12 @@ $mytweets-odd-tweet: #1da1f2;
     .tweetsButton {
       @include timelineMargin
     }
+    .filterTweetSpan {
+      float: right;
+      .filterButton {
+        @include timelineMargin
+      }
+    }
   }
   .tweetList {
     @include tweetList
