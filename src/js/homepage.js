@@ -36,20 +36,7 @@ class TweetList extends React.Component {
     this.state = {
       tweetList: null,
     };
-    this.getAndSetTweetList(props.url);
-  }
-
-  getAndSetTweetList(url) {
-      fetch(url)
-      .then(res => {
-        if(!res.ok){
-          throw Error();
-        }
-        return res;
-      })
-      .then(res => res.json())
-      .then(res => this.setTweetList(res))
-      .catch(err => this.setTweetList(null));
+    this.getAndSetTweetList(props.isHomeTimeline);
   }
 
   setTweetList(tweetList) {
@@ -77,34 +64,84 @@ class TweetList extends React.Component {
     return tweets;
   }
 
-  getAndSetFilteredTweets(filterUrl, url) {
+  getAndSetFilteredTweets() {
+    let twitterService = new TwitterService;
     let filter = document.getElementById('filter').value;
     if(filter) {
-      this.getAndSetTweetList(filterUrl+filter);
+      twitterService.getFilteredTimeline(filter).then(res => this.setTweetList(res));
+    }
+  }
+
+  getAndSetTweetList(isHomeTimeline) {
+    let twitterService = new TwitterService;
+    if(isHomeTimeline){
+      twitterService.getHomeTimeline().then(res => this.setTweetList(res));
     } else {
-      this.getAndSetTweetList(url);
+      twitterService.getUserTweets().then(res => this.setTweetList(res));
     }
   }
 
   render() {
     let tweetList = this.state.tweetList;
-    console.log(tweetList);
+    let twitterService = new TwitterService;
     return React.createElement('div', {className: 'tweets'},
       React.createElement('div', {className: 'tweetListWrapper'},
         React.createElement('h1', {className: 'header'}, this.props.headerMsg),
-        React.createElement('button', {type: 'button', className: 'tweetsButton', onClick: () => this.getAndSetTweetList(this.props.url)}, this.props.buttonText),
+        React.createElement('button', {type: 'button', className: 'tweetsButton', onClick: () => this.getAndSetTweetList(this.props.isHomeTimeline)}, this.props.buttonText),
         this.props.isHomeTimeline ? React.createElement('div', {className: 'filterTweetDiv'},
           React.createElement('input', {type: 'text', id: 'filter'}),
-          React.createElement('button', {type: 'button', className: 'filterButton', onClick: () => this.getAndSetFilteredTweets(this.props.filterUrl, this.props.url)}, 'Filter')) : null,
+          React.createElement('button', {type: 'button', className: 'filterButton', onClick: () => this.getAndSetFilteredTweets()}, 'Filter')) : null,
         tweetList ? React.createElement('div', {className: 'tweetList'}, this.renderTweetList(tweetList, this.props.isHomeTimeline, this.props.tweetsEmptyMsg)) : React.createElement('div', null, 'Error Communicating with localhost:8080')));
+  }
+}
+
+class TwitterService {
+  getHomeTimeline() {
+    return fetch('http://localhost:8080/api/1.0/twitter/timeline')
+    .then(res => {
+      if(!res.ok){
+        throw Error();
+      }
+      return res;
+    })
+    .then(res => res.json())
+    .catch(err => {
+      return null;
+    });
+  }
+
+  getFilteredTimeline(filter) {
+    return fetch('http://localhost:8080/api/1.0/twitter/filter?filter='+filter)
+    .then(res => {
+      if(!res.ok){
+        throw Error();
+      }
+      return res;
+    })
+    .then(res => res.json())
+    .catch(err => {
+      return null;
+    });
+  }
+
+  getUserTweets() {
+    return fetch('http://localhost:8080/api/1.0/twitter/mytweets')
+    .then(res => {
+      if(!res.ok){
+        throw Error();
+      }
+      return res;
+    })
+    .then(res => res.json())
+    .catch(err => {
+      return null;
+    });
   }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(React.createElement(TweetList,
     {
-      url: 'http://localhost:8080/api/1.0/twitter/timeline',
-      filterUrl: 'http://localhost:8080/api/1.0/twitter/filter?filter=',
       headerMsg: 'My Home Timeline',
       tweetsEmptyMsg: 'No tweets are available',
       buttonText: 'Refresh Timeline',
@@ -113,7 +150,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   ReactDOM.render(React.createElement(TweetList,
     {
-      url: 'http://localhost:8080/api/1.0/twitter/mytweets',
       headerMsg: 'My Posted Tweets',
       tweetsEmptyMsg: 'No tweets are available, post a tweet!',
       buttonText: 'Refresh My Tweets',
