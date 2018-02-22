@@ -69,32 +69,26 @@ class TweetList extends React.Component {
     let twitterService = new TwitterService;
     let filter = document.getElementById('filter').value;
     if(filter) {
-      twitterService.getFilteredTimeline(filter).then(res => this.setTweetList(res));
+      twitterService.getFilteredTimeline(filter).then(tweetList => this.setTweetList(tweetList));
     }
   }
 
   getAndSetTweetList(isHomeTimeline) {
     let twitterService = new TwitterService;
-    let tweetList;
+    let twitterResponse;
     if(isHomeTimeline){
-      tweetList = twitterService.getHomeTimeline();
+      twitterResponse = twitterService.getHomeTimeline();
     } else {
-      tweetList = twitterService.getUserTweets();
+      twitterResponse = twitterService.getUserTweets();
     }
-    tweetList.then(res => this.setTweetList(res));
+    twitterResponse.then(tweetList => this.setTweetList(tweetList));
   }
 
   setButton() {
     let filterText = document.getElementById('filter').value;
-    if(filterText.length > 0) {
-      this.setState({
-        filterButtonDisabled: false,
-      });
-    } else {
-      this.setState({
-        filterButtonDisabled: true,
-      });
-    }
+    this.setState({
+      filterButtonDisabled: !(filterText.length > 0),
+    });
   }
 
   render() {
