@@ -15,6 +15,10 @@
   margin: 0px 5px;
 }
 
+@mixin headerMargin {
+  margin: 0px 5px 5px;
+}
+
 @mixin timelineMargin {
   margin: 0px 5px;
 }
@@ -67,10 +71,19 @@ $mytweets-odd-tweet: #1da1f2;
     clear: both;
     width: 60%;
     .header {
-      @include timelineMargin
+      @include headerMargin
     }
     .tweetsButton {
       @include timelineMargin
+    }
+    .tweetListWrapper {
+      padding: 0 10px 0 0;
+    }
+    .filterTweetDiv {
+      float: right;
+      #filterButton {
+        margin: 0 5px;
+      }
     }
   }
   .tweetList {
@@ -91,7 +104,7 @@ $mytweets-odd-tweet: #1da1f2;
     float: left;
     width: 40%;
     .header {
-      @include myTweetsMargin
+      @include headerMargin
     }
     .tweetsButton {
       @include myTweetsMargin
@@ -112,7 +125,7 @@ $mytweets-odd-tweet: #1da1f2;
 
 .content {
   text-align: left;
-  padding-top: 33px;
+  padding: 33px 10px 0 0;
   overflow: scroll;
 
   .date {
