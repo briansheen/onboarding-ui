@@ -35,6 +35,7 @@ class TweetList extends React.Component {
     super(props);
     this.state = {
       tweetList: null,
+      filterButtonDisabled: true,
     };
     this.getAndSetTweetList(props.isHomeTimeline);
   }
@@ -74,10 +75,25 @@ class TweetList extends React.Component {
 
   getAndSetTweetList(isHomeTimeline) {
     let twitterService = new TwitterService;
+    let tweetList;
     if(isHomeTimeline){
-      twitterService.getHomeTimeline().then(res => this.setTweetList(res));
+      tweetList = twitterService.getHomeTimeline();
     } else {
-      twitterService.getUserTweets().then(res => this.setTweetList(res));
+      tweetList = twitterService.getUserTweets();
+    }
+    tweetList.then(res => this.setTweetList(res));
+  }
+
+  setButton() {
+    let filterText = document.getElementById('filter').value;
+    if(filterText.length > 0) {
+      this.setState({
+        filterButtonDisabled: false,
+      });
+    } else {
+      this.setState({
+        filterButtonDisabled: true,
+      });
     }
   }
 
@@ -89,8 +105,8 @@ class TweetList extends React.Component {
         React.createElement('h1', {className: 'header'}, this.props.headerMsg),
         React.createElement('button', {type: 'button', className: 'tweetsButton', onClick: () => this.getAndSetTweetList(this.props.isHomeTimeline)}, this.props.buttonText),
         this.props.isHomeTimeline ? React.createElement('div', {className: 'filterTweetDiv'},
-          React.createElement('input', {type: 'text', id: 'filter'}),
-          React.createElement('button', {type: 'button', className: 'filterButton', onClick: () => this.getAndSetFilteredTweets()}, 'Filter')) : null,
+          React.createElement('input', {type: 'text', id: 'filter', onKeyUp: () => this.setButton()}),
+          React.createElement('button', {disabled: this.state.filterButtonDisabled, type: 'button', id: 'filterButton', onClick: () => this.getAndSetFilteredTweets()}, 'Filter')) : null,
         tweetList ? React.createElement('div', {className: 'tweetList'}, this.renderTweetList(tweetList, this.props.isHomeTimeline, this.props.tweetsEmptyMsg)) : React.createElement('div', null, 'Error Communicating with localhost:8080')));
   }
 }
