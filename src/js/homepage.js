@@ -2,6 +2,99 @@ import React from "react";
 import ReactDOM from "react-dom";
 import _ from "lodash";
 
+class TwitterTabs extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      timelineTab: 'timelineTab tab',
+      userTweetsTab: 'userTweetsTab tab',
+      postTweetTab: 'postTweetTab tab',
+    }
+  }
+
+  openTab(tabId) {
+    let tabContent = document.getElementsByClassName('tabContent');
+    _.forEach(tabContent, content => {
+      content.style.display = 'none';
+    });
+
+    let tab = document.getElementsByClassName('tab');
+    _.forEach(tab, content => {
+      if(content.className.includes('timelineTab')) {
+        this.setState({
+          timelineTab: 'timelineTab tab'
+        });
+      }
+      if(content.className.includes('userTweetsTab')) {
+        this.setState({
+          userTweetsTab: 'userTweetsTab tab'
+        });
+      }
+      if(content.className.includes('postTweetTab')) {
+        this.setState({
+          postTweetTab: 'postTweetTab tab'
+        });
+      }
+    });
+
+    if(tabId === 'timelineColumn'){
+      this.setState({
+        timelineTab: 'timelineTab tab active'
+      })
+    }
+    if(tabId === 'userTweetsColumn'){
+      this.setState({
+        userTweetsTab: 'userTweetsTab tab active'
+      })
+    }
+    if(tabId === 'postTweetColumn'){
+      this.setState({
+        postTweetTab: 'postTweetTab tab active'
+      })
+    }
+    document.getElementById(tabId).style.display = 'block';
+  }
+
+  render() {
+    return React.createElement('div', {className: 'tabDiv'},
+      React.createElement('button', {className: this.state.timelineTab, id: 'defaultTab', onClick: () => this.openTab('timelineColumn')}, 'Home Timeline'),
+      React.createElement('button', {className: this.state.userTweetsTab, onClick: () => this.openTab('userTweetsColumn')}, 'User Tweets'),
+      React.createElement('button', {className: this.state.postTweetTab, onClick: () => this.openTab('postTweetColumn')}, 'Post Tweet'));
+  }
+}
+
+class PostTweetUI extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      numChars: 0,
+      postTweetButtonDisabled: true,
+      userTweetText: '',
+    }
+  }
+
+  preparePost() {
+    let userTweetText = document.getElementById('userTweetText').value;
+    let numChars = userTweetText.length;
+    this.setState({
+      numChars: numChars,
+      postTweetButtonDisabled: !(numChars > 0 && numChars <= 280),
+      userTweetText: userTweetText,
+    });
+  }
+
+  render() {
+    let twitterService = new TwitterService;
+    return React.createElement('div', {className: 'postTweet'},
+      React.createElement('h1', {className: 'header'}, 'Post Tweet'),
+      React.createElement('textarea', {id: 'userTweetText', type: 'text', onKeyUp: () => this.preparePost()}),
+      React.createElement('div', {className: 'verifyTweet'},
+        React.createElement('span', {className: 'characterCount'}, this.state.numChars),
+        React.createElement('button', {className: 'postTweetButton', type: 'button', disabled: this.state.postTweetButtonDisabled, onClick: () => twitterService.postTweet(this.state.userTweetText)}, 'Tweet')
+      ));
+  }
+}
+
 class Avatar extends React.Component {
   render() {
     let user = this.props.user;
@@ -147,9 +240,25 @@ class TwitterService {
       return null;
     });
   }
+
+  postTweet(message) {
+    return fetch('http://localhost:8080/api/1.0/twitter/tweet',
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: 'message='+message,
+    })
+    .then(res => res.json())
+    .catch(err => {
+      return null;
+    });
+  }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  ReactDOM.render(React.createElement(TwitterTabs, null), document.getElementById('twitterTabs'));
   ReactDOM.render(React.createElement(TweetList,
     {
       headerMsg: 'My Home Timeline',
@@ -165,4 +274,8 @@ document.addEventListener('DOMContentLoaded', () => {
       buttonText: 'Refresh My Tweets',
       isHomeTimeline: false,
     }), document.getElementById('userTweetsColumn'));
+
+  ReactDOM.render(React.createElement(PostTweetUI, null), document.getElementById('postTweetColumn'));
+
+  document.getElementById('defaultTab').click();
 });

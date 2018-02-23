@@ -28,6 +28,9 @@ $timeline-even-tweet: #e9e9e9;
 $timeline-odd-tweet: #e8f5fd;
 $mytweets-even-tweet: #f5f8fa;
 $mytweets-odd-tweet: #1da1f2;
+$tab-bg: #f1f1f1;
+$tab-bg-hover: #ddd;
+$tab-bg-active: #ccc;
 
 .tweet {
   height: 110px;
@@ -65,60 +68,97 @@ $mytweets-odd-tweet: #1da1f2;
   }
 }
 
+.tweets {
+  float: left;
+  clear: both;
+  width: 60%;
+  .header {
+    @include headerMargin
+  }
+  .tweetsButton {
+    @include myTweetsMargin
+  }
+}
+
+.tweetList {
+  @include tweetList
+}
+
+.tweetListWrapper {
+  padding: 0 10px 0 0;
+}
+
 #timelineColumn {
-  .tweets {
-    float: left;
-    clear: both;
-    width: 60%;
-    .header {
-      @include headerMargin
-    }
-    .tweetsButton {
-      @include timelineMargin
-    }
-    .tweetListWrapper {
-      padding: 0 10px 0 0;
-    }
-    .filterTweetDiv {
-      float: right;
-      #filterButton {
-        margin: 0 5px;
-      }
+  .filterTweetDiv {
+    float: right;
+    #filterButton {
+      margin: 0 5px;
     }
   }
-  .tweetList {
-    @include tweetList
-    .tweet {
-      &:nth-of-type(even) {
-        background-color: $timeline-even-tweet;
-      }
-      &:nth-of-type(odd) {
-        background-color: $timeline-odd-tweet;
-      }
+  .tweet {
+    &:nth-of-type(even) {
+      background-color: $timeline-even-tweet;
+    }
+    &:nth-of-type(odd) {
+      background-color: $timeline-odd-tweet;
     }
   }
 }
 
 #userTweetsColumn {
-  .tweets {
+  .tweet {
+    &:nth-of-type(even) {
+      background-color: $mytweets-even-tweet;
+    }
+    &:nth-of-type(odd) {
+      background-color: $mytweets-odd-tweet;
+    }
+  }
+}
+
+#postTweetColumn {
+  .postTweet {
     float: left;
-    width: 40%;
+    clear: both;
+    width: 60%;
+
     .header {
       @include headerMargin
     }
-    .tweetsButton {
-      @include myTweetsMargin
+
+    #userTweetText {
+      height: 100px;
+      width: 100%;
+    }
+
+    .verifyTweet {
+      float: right;
+      clear: both;
+      .characterCount {
+        font-size: 10pt;
+        margin: 0 10px;
+      }
     }
   }
-  .tweetList {
-    @include tweetList
-    .tweet {
-      &:nth-of-type(even) {
-        background-color: $mytweets-even-tweet;
+}
+
+#twitterTabs {
+  .tabDiv {
+    border: 1px solid;
+    border-color: #ccc;
+    background-color: $tab-bg;
+    .tab {
+      background-color: inherit;
+      padding: 10px;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      &:hover {
+        background-color: $tab-bg-hover;
       }
-      &:nth-of-type(odd) {
-        background-color: $mytweets-odd-tweet;
-      }
+    }
+    .active {
+      background-color: $tab-bg-active;
     }
   }
 }
