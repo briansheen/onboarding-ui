@@ -135,6 +135,10 @@ $tab-bg-active: #ccc;
         color: red;
       }
 
+      .pendingText {
+        margin: 23px 5px;
+      }
+
       .header {
         @include headerMargin
       }

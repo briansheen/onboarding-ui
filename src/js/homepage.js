@@ -88,8 +88,8 @@ class PostTweetUI extends React.Component {
     return React.createElement('div', {className: 'postTweet'},
       React.createElement('div', {className: 'postTweetWrapper'},
         React.createElement('h1', {className: 'header'}, 'Post Tweet'),
-        postStatus === 'success' ? React.createElement('div', {className: 'successText'}, 'Successful Post') : null,
-        postStatus === 'fail' ? React.createElement('div', {className: 'failText'}, 'Failed to Post') : null,
+        postStatus === 'success' ? React.createElement('div', {className: 'successText'}, 'Successful Post') :
+        postStatus === 'fail' ? React.createElement('div', {className: 'failText'}, 'Failed to Post') : React.createElement('div', {className: 'pendingText'}, ''),
         React.createElement('textarea', {id: 'userTweetText', type: 'text', onKeyUp: () => this.preparePost()}),
         React.createElement('div', {className: 'verifyTweet'},
           React.createElement('span', {className: 'characterCount'}, this.state.numChars),
