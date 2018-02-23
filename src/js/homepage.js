@@ -6,9 +6,7 @@ class TwitterTabs extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      timelineTab: 'timelineTab tab',
-      userTweetsTab: 'userTweetsTab tab',
-      postTweetTab: 'postTweetTab tab',
+      activeTab: '',
     }
   }
 
@@ -19,36 +17,17 @@ class TwitterTabs extends React.Component {
     });
 
     this.setState({
-      timelineTab: 'timelineTab tab',
-      userTweetsTab: 'userTweetsTab tab',
-      postTweetTab: 'postTweetTab tab',
+      activeTab: tabId,
     });
-
-    switch(tabId) {
-      case('timelineColumn'):
-        this.setState({
-          timelineTab: 'timelineTab tab active'
-        });
-        break;
-      case('userTweetsColumn'):
-        this.setState({
-          userTweetsTab: 'userTweetsTab tab active'
-        });
-        break;
-      case('postTweetColumn'):
-        this.setState({
-          postTweetTab: 'postTweetTab tab active'
-        });
-    }
 
     document.getElementById(tabId).style.display = 'block';
   }
 
   render() {
     return React.createElement('div', {className: 'tabDiv'},
-      React.createElement('button', {className: this.state.timelineTab, id: 'defaultTab', onClick: () => this.openTab('timelineColumn')}, 'Home Timeline'),
-      React.createElement('button', {className: this.state.userTweetsTab, onClick: () => this.openTab('userTweetsColumn')}, 'User Tweets'),
-      React.createElement('button', {className: this.state.postTweetTab, onClick: () => this.openTab('postTweetColumn')}, 'Post Tweet'));
+      React.createElement('button', {className: 'tab' + (this.state.activeTab === 'timelineColumn' ? ' active' : ''), id: 'defaultTab', onClick: () => this.openTab('timelineColumn')}, 'Home Timeline'),
+      React.createElement('button', {className: 'tab' + (this.state.activeTab === 'userTweetsColumn' ? ' active' : ''), onClick: () => this.openTab('userTweetsColumn')}, 'User Tweets'),
+      React.createElement('button', {className: 'tab' + (this.state.activeTab === 'postTweetColumn' ? ' active' : ''), onClick: () => this.openTab('postTweetColumn')}, 'Post Tweet'));
   }
 }
 
@@ -78,8 +57,7 @@ class PostTweetUI extends React.Component {
     let twitterService = new TwitterService;
     let postResponse;
     twitterService.postTweet(this.state.userTweetText).then(res => {
-      res ? postResponse = res : postResponse = null;
-      postResponse ? this.setState({postStatus: 'success'}) : this.setState({postStatus: 'fail'});
+      res ? this.setState({postStatus: 'success'}) : this.setState({postStatus: 'fail'});
     });
   }
 
@@ -267,7 +245,7 @@ class TwitterService {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  ReactDOM.render(React.createElement(TwitterTabs, null), document.getElementById('twitterTabs'));
+  ReactDOM.render(React.createElement(TwitterTabs), document.getElementById('twitterTabs'));
   ReactDOM.render(React.createElement(TweetList,
     {
       headerMsg: 'My Home Timeline',
@@ -284,7 +262,7 @@ document.addEventListener('DOMContentLoaded', () => {
       isHomeTimeline: false,
     }), document.getElementById('userTweetsColumn'));
 
-  ReactDOM.render(React.createElement(PostTweetUI, null), document.getElementById('postTweetColumn'));
+  ReactDOM.render(React.createElement(PostTweetUI), document.getElementById('postTweetColumn'));
 
   document.getElementById('defaultTab').click();
 });
