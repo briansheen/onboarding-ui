@@ -18,40 +18,29 @@ class TwitterTabs extends React.Component {
       content.style.display = 'none';
     });
 
-    let tab = document.getElementsByClassName('tab');
-    _.forEach(tab, content => {
-      if(content.className.includes('timelineTab')) {
-        this.setState({
-          timelineTab: 'timelineTab tab'
-        });
-      }
-      if(content.className.includes('userTweetsTab')) {
-        this.setState({
-          userTweetsTab: 'userTweetsTab tab'
-        });
-      }
-      if(content.className.includes('postTweetTab')) {
-        this.setState({
-          postTweetTab: 'postTweetTab tab'
-        });
-      }
+    this.setState({
+      timelineTab: 'timelineTab tab',
+      userTweetsTab: 'userTweetsTab tab',
+      postTweetTab: 'postTweetTab tab',
     });
 
-    if(tabId === 'timelineColumn'){
-      this.setState({
-        timelineTab: 'timelineTab tab active'
-      })
+    switch(tabId) {
+      case('timelineColumn'):
+        this.setState({
+          timelineTab: 'timelineTab tab active'
+        });
+        break;
+      case('userTweetsColumn'):
+        this.setState({
+          userTweetsTab: 'userTweetsTab tab active'
+        });
+        break;
+      case('postTweetColumn'):
+        this.setState({
+          postTweetTab: 'postTweetTab tab active'
+        });
     }
-    if(tabId === 'userTweetsColumn'){
-      this.setState({
-        userTweetsTab: 'userTweetsTab tab active'
-      })
-    }
-    if(tabId === 'postTweetColumn'){
-      this.setState({
-        postTweetTab: 'postTweetTab tab active'
-      })
-    }
+
     document.getElementById(tabId).style.display = 'block';
   }
 
@@ -70,6 +59,7 @@ class PostTweetUI extends React.Component {
       numChars: 0,
       postTweetButtonDisabled: true,
       userTweetText: '',
+      postStatus: 'pending',
     }
   }
 
@@ -80,18 +70,31 @@ class PostTweetUI extends React.Component {
       numChars: numChars,
       postTweetButtonDisabled: !(numChars > 0 && numChars <= 280),
       userTweetText: userTweetText,
+      postStatus: 'pending',
+    });
+  }
+
+  postAndGetResponse() {
+    let twitterService = new TwitterService;
+    let postResponse;
+    twitterService.postTweet(this.state.userTweetText).then(res => {
+      res ? postResponse = res : postResponse = null;
+      postResponse ? this.setState({postStatus: 'success'}) : this.setState({postStatus: 'fail'});
     });
   }
 
   render() {
-    let twitterService = new TwitterService;
+    let postStatus = this.state.postStatus;
     return React.createElement('div', {className: 'postTweet'},
-      React.createElement('h1', {className: 'header'}, 'Post Tweet'),
-      React.createElement('textarea', {id: 'userTweetText', type: 'text', onKeyUp: () => this.preparePost()}),
-      React.createElement('div', {className: 'verifyTweet'},
-        React.createElement('span', {className: 'characterCount'}, this.state.numChars),
-        React.createElement('button', {className: 'postTweetButton', type: 'button', disabled: this.state.postTweetButtonDisabled, onClick: () => twitterService.postTweet(this.state.userTweetText)}, 'Tweet')
-      ));
+      React.createElement('div', {className: 'postTweetWrapper'},
+        React.createElement('h1', {className: 'header'}, 'Post Tweet'),
+        postStatus === 'success' ? React.createElement('div', {className: 'successText'}, 'Successful Post') : null,
+        postStatus === 'fail' ? React.createElement('div', {className: 'failText'}, 'Failed to Post') : null,
+        React.createElement('textarea', {id: 'userTweetText', type: 'text', onKeyUp: () => this.preparePost()}),
+        React.createElement('div', {className: 'verifyTweet'},
+          React.createElement('span', {className: 'characterCount'}, this.state.numChars),
+          React.createElement('button', {className: 'postTweetButton', type: 'button', disabled: this.state.postTweetButtonDisabled, onClick: () => this.postAndGetResponse()}, 'Tweet')
+      )));
   }
 }
 
@@ -249,6 +252,12 @@ class TwitterService {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
       body: 'message='+message,
+    })
+    .then(res => {
+      if(!res.ok){
+        throw Error();
+      }
+      return res;
     })
     .then(res => res.json())
     .catch(err => {

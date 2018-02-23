@@ -16,7 +16,7 @@
 }
 
 @mixin headerMargin {
-  margin: 0px 5px 5px;
+  margin: 10px 5px 5px;
 }
 
 @mixin timelineMargin {
@@ -122,21 +122,39 @@ $tab-bg-active: #ccc;
     clear: both;
     width: 60%;
 
-    .header {
-      @include headerMargin
-    }
+    .postTweetWrapper {
+      padding: 0 15px 0 0;
 
-    #userTweetText {
-      height: 100px;
-      width: 100%;
-    }
+      .successText {
+        margin: 0 5px;
+        color: green;
+      }
 
-    .verifyTweet {
-      float: right;
-      clear: both;
-      .characterCount {
-        font-size: 10pt;
-        margin: 0 10px;
+      .failText {
+        margin: 0 5px;
+        color: red;
+      }
+
+      .header {
+        @include headerMargin
+      }
+
+      #userTweetText {
+        height: 120px;
+        width: 97%;
+        resize: vertical;
+        margin: 10px 0 0 5px;
+      }
+
+      .verifyTweet {
+        float: right;
+        clear: both;
+        margin: 5px 5px 0 0;
+
+        .characterCount {
+          font-size: 10pt;
+          margin: 0 10px;
+        }
       }
     }
   }
