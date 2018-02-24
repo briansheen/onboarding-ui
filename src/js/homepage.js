@@ -24,10 +24,10 @@ class TwitterTabs extends React.Component {
   }
 
   render() {
-    return React.createElement('div', {className: 'tabDiv'},
-      React.createElement('button', {className: 'tab' + (this.state.activeTab === 'timelineColumn' ? ' active' : ''), id: 'defaultTab', onClick: () => this.openTab('timelineColumn')}, 'Home Timeline'),
-      React.createElement('button', {className: 'tab' + (this.state.activeTab === 'userTweetsColumn' ? ' active' : ''), onClick: () => this.openTab('userTweetsColumn')}, 'User Tweets'),
-      React.createElement('button', {className: 'tab' + (this.state.activeTab === 'postTweetColumn' ? ' active' : ''), onClick: () => this.openTab('postTweetColumn')}, 'Post Tweet'));
+    return React.createElement('ul', {className: 'tabUL'},
+        React.createElement('li', {type: 'none', className: 'tab' + (this.state.activeTab === 'timelineColumn' ? ' active' : ''), id: 'defaultTab', onClick: () => this.openTab('timelineColumn')}, 'Home Timeline'),
+        React.createElement('li', {type: 'none', className: 'tab' + (this.state.activeTab === 'userTweetsColumn' ? ' active' : ''), onClick: () => this.openTab('userTweetsColumn')}, 'User Tweets'),
+        React.createElement('li', {type: 'none', className: 'tab' + (this.state.activeTab === 'postTweetColumn' ? ' active' : ''), onClick: () => this.openTab('postTweetColumn')}, 'Post Tweet'));
   }
 }
 
@@ -69,8 +69,8 @@ class PostTweetUI extends React.Component {
         postStatus === 'success' ? React.createElement('div', {className: 'successText'}, 'Successful Post') :
         postStatus === 'fail' ? React.createElement('div', {className: 'failText'}, 'Failed to Post') : React.createElement('div', {className: 'pendingText'}, ''),
         React.createElement('textarea', {id: 'userTweetText', type: 'text', onKeyUp: () => this.preparePost()}),
+        React.createElement('span', {className: 'characterCount'}, this.state.numChars),
         React.createElement('div', {className: 'verifyTweet'},
-          React.createElement('span', {className: 'characterCount'}, this.state.numChars),
           React.createElement('button', {className: 'postTweetButton', type: 'button', disabled: this.state.postTweetButtonDisabled, onClick: () => this.postAndGetResponse()}, 'Tweet')
       )));
   }
