@@ -124,19 +124,25 @@ $tab-bg-active: #ccc;
 
     .postTweetWrapper {
       padding: 0 15px 0 0;
+      position: relative;
 
       .successText {
         margin: 0 5px;
         color: green;
+        position: absolute;
+        font-size: 11pt;
       }
 
       .failText {
         margin: 0 5px;
         color: red;
+        position: absolute;
+        font-size: 11pt;
       }
 
       .pendingText {
         margin: 23px 5px;
+        position: absolute;
       }
 
       .header {
@@ -144,24 +150,24 @@ $tab-bg-active: #ccc;
       }
 
       #userTweetText {
+        position: absolute;
         height: 120px;
-        width: 98%;
+        width: 100%;
         resize: none;
-        margin: 10px 0 0 5px;
+        margin: 28px 0 0 5px;
       }
 
-      .verifyTweet {
-        float: right;
-        clear: both;
-        margin: 5px 5px 0 0;
+      .postTweetButton {
+        position: absolute;
+        top: 201px;
+        right: -1.5%;
       }
 
       .characterCount {
         font-size: 10pt;
-        position: relative;
-        float: right;
-        bottom: 23px;
-        right: 8px;
+        position: absolute;
+        top: 176px;
+        right: -0.5%;
       }
     }
   }

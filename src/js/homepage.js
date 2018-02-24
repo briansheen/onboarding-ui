@@ -70,9 +70,7 @@ class PostTweetUI extends React.Component {
         postStatus === 'fail' ? React.createElement('div', {className: 'failText'}, 'Failed to Post') : React.createElement('div', {className: 'pendingText'}, ''),
         React.createElement('textarea', {id: 'userTweetText', type: 'text', onKeyUp: () => this.preparePost()}),
         React.createElement('span', {className: 'characterCount'}, this.state.numChars),
-        React.createElement('div', {className: 'verifyTweet'},
-          React.createElement('button', {className: 'postTweetButton', type: 'button', disabled: this.state.postTweetButtonDisabled, onClick: () => this.postAndGetResponse()}, 'Tweet')
-      )));
+        React.createElement('button', {className: 'postTweetButton', type: 'button', disabled: this.state.postTweetButtonDisabled, onClick: () => this.postAndGetResponse()}, 'Tweet')));
   }
 }
 
