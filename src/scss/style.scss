@@ -4,6 +4,7 @@
   font-weight: bold;
   font-style: italic;
   font-family: Verdana;
+  margin: 0 0 20px 0;
 }
 
 @mixin tweetList {
@@ -16,7 +17,8 @@
 }
 
 @mixin headerMargin {
-  margin: 0px 5px 5px;
+  margin: 10px 5px 5px;
+  text-align: center;
 }
 
 @mixin timelineMargin {
@@ -28,6 +30,9 @@ $timeline-even-tweet: #e9e9e9;
 $timeline-odd-tweet: #e8f5fd;
 $mytweets-even-tweet: #f5f8fa;
 $mytweets-odd-tweet: #1da1f2;
+$tab-bg: #f1f1f1;
+$tab-bg-hover: #ddd;
+$tab-bg-active: #ccc;
 
 .tweet {
   height: 110px;
@@ -65,60 +70,127 @@ $mytweets-odd-tweet: #1da1f2;
   }
 }
 
+.tweets {
+  width: 80%;
+  margin: auto;
+  .header {
+    @include headerMargin
+  }
+  .tweetsButton {
+    @include myTweetsMargin
+  }
+}
+
+.tweetList {
+  @include tweetList
+}
+
+.tweetListWrapper {
+  padding: 0 10px 0 0;
+}
+
 #timelineColumn {
-  .tweets {
-    float: left;
-    clear: both;
-    width: 60%;
-    .header {
-      @include headerMargin
-    }
-    .tweetsButton {
-      @include timelineMargin
-    }
-    .tweetListWrapper {
-      padding: 0 10px 0 0;
-    }
-    .filterTweetDiv {
-      float: right;
-      #filterButton {
-        margin: 0 5px;
-      }
+  .filterTweetDiv {
+    float: right;
+    #filterButton {
+      margin: 0 5px;
     }
   }
-  .tweetList {
-    @include tweetList
-    .tweet {
-      &:nth-of-type(even) {
-        background-color: $timeline-even-tweet;
-      }
-      &:nth-of-type(odd) {
-        background-color: $timeline-odd-tweet;
-      }
+  .tweet {
+    &:nth-of-type(even) {
+      background-color: $timeline-even-tweet;
+    }
+    &:nth-of-type(odd) {
+      background-color: $timeline-odd-tweet;
     }
   }
 }
 
 #userTweetsColumn {
-  .tweets {
-    float: left;
-    width: 40%;
-    .header {
-      @include headerMargin
+  .tweet {
+    &:nth-of-type(even) {
+      background-color: $mytweets-even-tweet;
     }
-    .tweetsButton {
-      @include myTweetsMargin
+    &:nth-of-type(odd) {
+      background-color: $mytweets-odd-tweet;
     }
   }
-  .tweetList {
-    @include tweetList
-    .tweet {
-      &:nth-of-type(even) {
-        background-color: $mytweets-even-tweet;
+}
+
+#postTweetColumn {
+  .postTweet {
+    width: 80%;
+    margin: auto;
+
+    .postTweetWrapper {
+      padding: 0 15px 0 0;
+      position: relative;
+
+      .characterCount {
+        font-size: 10pt;
+        position: absolute;
+        top: 176px;
+        right: -3px;
       }
-      &:nth-of-type(odd) {
-        background-color: $mytweets-odd-tweet;
+
+      .postTweetFeatures {
+        position: absolute;
+        top: 207px;
+        right: -11px;
+
+        .postTweetResult {
+          margin: 0 5px;
+          font-size: 11pt;
+
+          .successText {
+            color: green;
+          }
+
+          .failText {
+            color: red;
+          }
+        }
       }
+
+      .header {
+        @include headerMargin
+      }
+
+      #userTweetText {
+        position: absolute;
+        height: 120px;
+        width: 100%;
+        resize: none;
+        margin: 28px 0 0 5px;
+      }
+    }
+  }
+}
+
+#twitterTabs {
+  .tabUL {
+    border: 1px solid;
+    border-color: #ccc;
+    background-color: $tab-bg;
+    height: 37px;
+    padding-left: 0px;
+    margin: auto;
+    width: 90%;
+    .tab {
+      display: inline-block;
+      background-color: inherit;
+      font-size: 11pt;
+      color: #444;
+      padding: 10px;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      &:hover {
+        background-color: $tab-bg-hover;
+      }
+    }
+    .active {
+      background-color: $tab-bg-active;
     }
   }
 }
