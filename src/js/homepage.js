@@ -68,9 +68,14 @@ class PostTweetUI extends React.Component {
         React.createElement('h1', {className: 'header'}, 'Post Tweet'),
         React.createElement('textarea', {id: 'userTweetText', maxLength: '280', type: 'text', onKeyUp: (event) => this.preparePost(event)}),
         React.createElement('span', {className: 'characterCount'}, this.state.numChars),
-        postStatus === 'success' ? React.createElement('div', {className: 'successText'}, 'Successful Post') :
-        postStatus === 'fail' ? React.createElement('div', {className: 'failText'}, 'Failed to Post') : React.createElement('div', {className: 'pendingText'}, ''),
-        React.createElement('button', {className: 'postTweetButton', type: 'button', disabled: this.state.postTweetButtonDisabled, onClick: () => this.postAndGetResponse()}, 'Tweet')));
+        React.createElement('div', {className: 'postTweetFeatures'},
+          React.createElement('span', {className: 'postTweetResult'},
+            postStatus === 'success' ? React.createElement('span', {className: 'successText'}, 'Successful Post') :
+            postStatus === 'fail' ? React.createElement('span', {className: 'failText'}, 'Failed to Post') : null),
+          React.createElement('button', {className: 'postTweetButton', type: 'button', disabled: this.state.postTweetButtonDisabled, onClick: () => this.postAndGetResponse()}, 'Tweet')
+        )
+      )
+    );
   }
 }
 
