@@ -2,7 +2,9 @@ const gulp = require('gulp');
 const connect = require('gulp-connect');
 const sass = require('gulp-sass');
 const babel = require('gulp-babel');
-const browserify = require('gulp-browserify');
+const browserify = require('browserify');
+const babelify = require('babelify');
+const source = require('vinyl-source-stream');
 
 const htmlSources = ['src/html/*.html'];
 const scssSources = ['src/scss/*.scss'];
@@ -33,13 +35,24 @@ gulp.task('sass', function(){
     .pipe(connect.reload());
 });
 
-gulp.task('js', function(){
-  gulp.src(jsSources)
-    .pipe(babel())
-    .pipe(browserify())
-    .pipe(gulp.dest('./prod/js'))
-    .pipe(connect.reload());
+gulp.task('js', function() {
+    return browserify({
+        debug: true,
+        entries: ['./src/js/homepage.js'],
+        paths: ['./src/js', './node_modules'],
+        cache: {},
+        packageCache: {}
+    }).transform(babelify)
+        .bundle()
+        .on('error', function (err) {
+            gutil.log(err.toString());
+            this.emit('end');
+        })
+        .pipe(source('bundle.js'))
+        .pipe(gulp.dest('./prod/js'))
+        .pipe(connect.reload());
 });
+
 
 gulp.task('watch',function(){
   gulp.watch(jsSources,['js']);

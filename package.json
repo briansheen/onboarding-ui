@@ -22,6 +22,7 @@
     "babel-core": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
+    "babelify": "^8.0.0",
     "browserify": "^15.2.0",
     "gulp": "^3.9.1",
     "gulp-babel": "^7.0.1",
@@ -31,7 +32,8 @@
     "lodash": "^4.17.5",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
-    "uglify-js": "2.6.0"
+    "uglify-js": "2.6.0",
+    "vinyl-source-stream": "^2.0.0"
   },
   "devDependencies": {}
 }
