@@ -1,4 +1,5 @@
 import React from "react";
+import TwitterService from '../services/twitterService.js';
 
 class PostTweetUI extends React.Component {
   constructor(props){

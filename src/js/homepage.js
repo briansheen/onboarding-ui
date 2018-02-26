@@ -1,9 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import _ from "lodash";
-import TwitterTabs from './twitterTabs.js';
-import PostTweetUI from './postTweet.js';
-import TweetList from './tweetList.js';
+import TwitterTabs from './views/twitterTabs.js';
+import PostTweetUI from './views/postTweet.js';
+import TweetList from './views/tweetList.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(React.createElement(TwitterTabs), document.getElementById('twitterTabs'));

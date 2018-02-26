@@ -1,7 +1,7 @@
 import React from "react";
 import _ from "lodash";
 import Tweet from './tweet.js';
-import TwitterService from './twitterService.js';
+import TwitterService from '../services/twitterService.js';
 
 class TweetList extends React.Component {
   constructor(props){
