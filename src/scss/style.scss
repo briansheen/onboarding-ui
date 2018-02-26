@@ -131,6 +131,8 @@ $tab-bg-active: #ccc;
         color: green;
         position: absolute;
         font-size: 11pt;
+        top: 207px;
+        right: 40px;
       }
 
       .failText {
@@ -138,6 +140,8 @@ $tab-bg-active: #ccc;
         color: red;
         position: absolute;
         font-size: 11pt;
+        top: 207px;
+        right: 40px;
       }
 
       .pendingText {
@@ -159,15 +163,15 @@ $tab-bg-active: #ccc;
 
       .postTweetButton {
         position: absolute;
-        top: 201px;
-        right: -1.5%;
+        top: 206px;
+        right: -11px;
       }
 
       .characterCount {
         font-size: 10pt;
         position: absolute;
         top: 176px;
-        right: -0.5%;
+        right: -3px;
       }
     }
   }

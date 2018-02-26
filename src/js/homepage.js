@@ -42,8 +42,8 @@ class PostTweetUI extends React.Component {
     }
   }
 
-  preparePost() {
-    let userTweetText = document.getElementById('userTweetText').value;
+  preparePost(event) {
+    let userTweetText = event.target.value;
     let numChars = userTweetText.length;
     this.setState({
       numChars: numChars,
@@ -66,10 +66,10 @@ class PostTweetUI extends React.Component {
     return React.createElement('div', {className: 'postTweet'},
       React.createElement('div', {className: 'postTweetWrapper'},
         React.createElement('h1', {className: 'header'}, 'Post Tweet'),
+        React.createElement('textarea', {id: 'userTweetText', maxLength: '280', type: 'text', onKeyUp: (event) => this.preparePost(event)}),
+        React.createElement('span', {className: 'characterCount'}, this.state.numChars),
         postStatus === 'success' ? React.createElement('div', {className: 'successText'}, 'Successful Post') :
         postStatus === 'fail' ? React.createElement('div', {className: 'failText'}, 'Failed to Post') : React.createElement('div', {className: 'pendingText'}, ''),
-        React.createElement('textarea', {id: 'userTweetText', type: 'text', onKeyUp: () => this.preparePost()}),
-        React.createElement('span', {className: 'characterCount'}, this.state.numChars),
         React.createElement('button', {className: 'postTweetButton', type: 'button', disabled: this.state.postTweetButtonDisabled, onClick: () => this.postAndGetResponse()}, 'Tweet')));
   }
 }
@@ -220,14 +220,16 @@ class TwitterService {
     });
   }
 
-  postTweet(message) {
+  postTweet(msg) {
     return fetch('http://localhost:8080/api/1.0/twitter/tweet',
     {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Type': 'application/json',
       },
-      body: 'message='+message,
+      body: JSON.stringify({
+        message: msg
+      }),
     })
     .then(res => {
       if(!res.ok){
