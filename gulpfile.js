@@ -44,10 +44,10 @@ gulp.task('js', function() {
         packageCache: {}
     }).transform(babelify)
         .bundle()
-        .on('error', function (err) {
-            gutil.log(err.toString());
-            this.emit('end');
-        })
+        // .on('error', function (err) {
+        //     gutil.log(err.toString());
+        //     this.emit('end');
+        // })
         .pipe(source('bundle.js'))
         .pipe(gulp.dest('./prod/js'))
         .pipe(connect.reload());

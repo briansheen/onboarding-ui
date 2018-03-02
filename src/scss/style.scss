@@ -35,7 +35,7 @@ $tab-bg-hover: #ddd;
 $tab-bg-active: #ccc;
 
 .tweet {
-  height: 110px;
+  height: 114px;
   border-bottom: 1px solid $border-color;
   overflow: scroll;
 
@@ -44,7 +44,7 @@ $tab-bg-active: #ccc;
     clear: left;
     text-align: center;
     width: 160px;
-    margin: 14px 0;
+    margin: 16px 0;
 
     .name {
       font-weight: bold;
@@ -60,6 +60,14 @@ $tab-bg-active: #ccc;
       height: 50px;
       width: 50px;
     }
+  }
+
+  .replyButton {
+    border: none;
+    background: none;
+    outline: none;
+    cursor: pointer;
+    padding: 0;
   }
 }
 
@@ -195,6 +203,122 @@ $tab-bg-active: #ccc;
   }
 }
 
+#replyTweetModal {
+  .replyModal {
+    position: fixed;
+    z-index: 1;
+    right: 40%;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+    -webkit-animation-name: fadeIn;
+    -webkit-animation-duration: 0.2s;
+    animation-name: fadeIn;
+    animation-duration: 0.2s;
+  }
+
+  .modal-content {
+    position: fixed;
+    right: 0px;
+    width: 40%;
+    height: 100%;
+    margin: auto;
+    background-color: #e8f5fd;
+    -webkit-animation-name: slideIn;
+    -webkit-animation-duration: 0.2s;
+    animation-name: slideIn;
+    animation-duration: 0.2s;
+  }
+
+  .close-modal {
+    position: absolute;
+    right: 10px;
+    font-size: 20pt;
+    border: none;
+    background: none;
+    outline: none;
+    cursor: pointer;
+  }
+
+  @-webkit-keyframes slideIn {
+    from {right: -300px; opacity: 0}
+    to {right: 0; opacity: 1}
+  }
+
+  @keyframes slideIn {
+      from {right: -300px; opacity: 0}
+      to {right: 0; opacity: 1}
+  }
+
+  @-webkit-keyframes fadeIn {
+      from {opacity: 0}
+      to {opacity: 1}
+  }
+
+  @keyframes fadeIn {
+      from {opacity: 0}
+      to {opacity: 1}
+  }
+
+  .header {
+    margin: 10px 5px 15px 5px;
+    text-align: center;
+  }
+
+  .tweet {
+    height: 114px;
+    border: 1px solid $border-color;
+    background-color: $timeline-even-tweet;
+    overflow: scroll;
+  }
+
+  .replyTweet {
+    width: 80%;
+    margin: auto;
+
+    .replyTweetWrapper {
+      padding: 0 15px 0 0;
+      position: relative;
+
+      .characterCount {
+        font-size: 10pt;
+        position: absolute;
+        top: 136px;
+        right: -3px;
+      }
+
+      .replyTweetFeatures {
+        position: absolute;
+        top: 167px;
+        right: -11px;
+
+        .replyTweetResult {
+          margin: 0 5px;
+          font-size: 11pt;
+
+          .successText {
+            color: green;
+          }
+
+          .failText {
+            color: red;
+          }
+        }
+      }
+
+      #replyTweetText {
+        position: absolute;
+        height: 120px;
+        width: 100%;
+        resize: none;
+        margin: 28px 0 0 5px;
+      }
+    }
+  }
+}
+
 .content {
   text-align: left;
   padding: 33px 10px 0 0;
@@ -208,6 +332,7 @@ $tab-bg-active: #ccc;
 
   .msg {
     font-size: 11pt;
+    margin: 0 0 2px 0;
   }
 
   .link {

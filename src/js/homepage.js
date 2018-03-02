@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import TwitterTabs from './views/twitterTabs.js';
 import PostTweetUI from './views/postTweet.js';
 import TweetList from './views/tweetList.js';
+import ReplyTweet from './views/replyTweet.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(React.createElement(TwitterTabs), document.getElementById('twitterTabs'));
@@ -23,6 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }), document.getElementById('userTweetsColumn'));
 
   ReactDOM.render(React.createElement(PostTweetUI), document.getElementById('postTweetColumn'));
+  ReactDOM.render(React.createElement(ReplyTweet), document.getElementById('replyTweetModal'));
 
   document.getElementById('defaultTab').click();
 });

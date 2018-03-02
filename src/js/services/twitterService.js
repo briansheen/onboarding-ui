@@ -63,6 +63,30 @@ class TwitterService {
       return null;
     });
   }
+
+  replyTweet(msg, replyToStatusId) {
+    return fetch('http://localhost:8080/api/1.0/twitter/reply',
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        replyMessage: msg,
+        inReplyToStatusId: replyToStatusId,
+      }),
+    })
+    .then(res => {
+      if(!res.ok){
+        throw Error();
+      }
+      return res;
+    })
+    .then(res => res.json())
+    .catch(err => {
+      return null;
+    });
+  }
 }
 
 module.exports = TwitterService;
