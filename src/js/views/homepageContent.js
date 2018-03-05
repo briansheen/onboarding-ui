@@ -4,7 +4,7 @@ import PostTweetTab from './postTweetTab.js';
 import TweetList from './tweetList.js';
 import ReplyTweet from './replyTweet.js';
 
-class Homepage extends React.Component {
+class HomepageContent extends React.Component {
   render() {
     return React.createElement('div', {className: 'homepage-content'},
       React.createElement('div', {id: 'twitterTabs'},
@@ -40,4 +40,4 @@ class Homepage extends React.Component {
   }
 }
 
-module.exports = Homepage;
+module.exports = HomepageContent;

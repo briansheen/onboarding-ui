@@ -1,9 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import Homepage from './views/homepage.js';
+import HomepageContent from './views/homepageContent.js';
 
 document.addEventListener('DOMContentLoaded', () => {
-  ReactDOM.render(React.createElement(Homepage), document.getElementById('homepage'));
+  ReactDOM.render(React.createElement(HomepageContent), document.getElementById('homepage'));
 
   document.getElementById('defaultTab').click();
 });
