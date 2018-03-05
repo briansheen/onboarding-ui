@@ -19,7 +19,7 @@ class TweetList extends React.Component {
     });
   }
 
-  renderTweetList(tweetList, isHomeTimeline, emptyMsg) {
+  renderTweetList(tweetList, options, emptyMsg) {
     let tweets = [];
     let i = 0;
     if(tweetList.length > 0) {
@@ -27,7 +27,10 @@ class TweetList extends React.Component {
         let props = {
           key: i,
           tweet: tweet,
-          isHomeTimeline: isHomeTimeline,
+          options: {
+            showUserHandle: options.showUserHandle,
+            showReplyButton: options.showReplyButton,
+          }
         };
         tweets.push(React.createElement(Tweet, props));
         i += 1;
@@ -74,7 +77,7 @@ class TweetList extends React.Component {
         this.props.isHomeTimeline ? React.createElement('div', {className: 'filterTweetDiv'},
           React.createElement('input', {type: 'text', id: 'filter', onKeyUp: () => this.setButton()}),
           React.createElement('button', {disabled: this.state.filterButtonDisabled, type: 'button', id: 'filterButton', onClick: () => this.getAndSetFilteredTweets()}, 'Filter')) : null,
-        tweetList ? React.createElement('div', {className: 'tweetList'}, this.renderTweetList(tweetList, this.props.isHomeTimeline, this.props.tweetsEmptyMsg)) : React.createElement('div', null, 'Error Communicating with localhost:8080')));
+        tweetList ? React.createElement('div', {className: 'tweetList'}, this.renderTweetList(tweetList, this.props.options, this.props.tweetsEmptyMsg)) : React.createElement('div', null, 'Error Communicating with localhost:8080')));
   }
 }
 

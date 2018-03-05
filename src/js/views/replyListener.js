@@ -8,12 +8,20 @@ class ReplyListener {
     return ReplyListener.instance;
   }
 
-  subscribe(func) {
-    this.replys.push(func);
+  subscribe(event, callback) {
+    if(!this.replys[event]) {
+      this.replys[event] = [];
+    }
+    this.replys[event].push(callback);
   }
 
-  publish(tweet) {
-    this.replys[0](tweet);
+  publish(event, tweet) {
+    if(!this.replys[event]) {
+      return;
+    }
+    this.replys[event].forEach(function(reply){
+        reply(tweet);
+    });
   }
 }
 

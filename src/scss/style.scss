@@ -126,6 +126,10 @@ $tab-bg-active: #ccc;
 }
 
 #postTweetColumn {
+  .header {
+    @include headerMargin
+  }
+
   .postTweet {
     width: 80%;
     margin: auto;
@@ -137,13 +141,13 @@ $tab-bg-active: #ccc;
       .characterCount {
         font-size: 10pt;
         position: absolute;
-        top: 176px;
+        top: 136px;
         right: -3px;
       }
 
       .postTweetFeatures {
         position: absolute;
-        top: 207px;
+        top: 167px;
         right: -11px;
 
         .postTweetResult {
@@ -164,7 +168,7 @@ $tab-bg-active: #ccc;
         @include headerMargin
       }
 
-      #userTweetText {
+      .postTweetText {
         position: absolute;
         height: 120px;
         width: 100%;
@@ -225,7 +229,7 @@ $tab-bg-active: #ccc;
     width: 40%;
     height: 100%;
     margin: auto;
-    background-color: #e8f5fd;
+    background-color: white;
     -webkit-animation-name: slideIn;
     -webkit-animation-duration: 0.2s;
     animation-name: slideIn;
@@ -269,16 +273,17 @@ $tab-bg-active: #ccc;
 
   .tweet {
     height: 114px;
-    border: 1px solid $border-color;
-    background-color: $timeline-even-tweet;
+    border: 1px solid black;
+    background-color: white;
     overflow: scroll;
+    margin: 0px 10px;
   }
 
-  .replyTweet {
+  .postTweet {
     width: 80%;
     margin: auto;
 
-    .replyTweetWrapper {
+    .postTweetWrapper {
       padding: 0 15px 0 0;
       position: relative;
 
@@ -289,12 +294,12 @@ $tab-bg-active: #ccc;
         right: -3px;
       }
 
-      .replyTweetFeatures {
+      .postTweetFeatures {
         position: absolute;
         top: 167px;
         right: -11px;
 
-        .replyTweetResult {
+        .postTweetResult {
           margin: 0 5px;
           font-size: 11pt;
 
@@ -308,7 +313,7 @@ $tab-bg-active: #ccc;
         }
       }
 
-      #replyTweetText {
+      .postTweetText {
         position: absolute;
         height: 120px;
         width: 100%;
