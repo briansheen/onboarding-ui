@@ -37,7 +37,7 @@ $tab-bg-active: #ccc;
 .tweet {
   height: 114px;
   border-bottom: 1px solid $border-color;
-  overflow: scroll;
+  overflow: hidden;
 
   .userInfo{
     float: left;
@@ -275,7 +275,7 @@ $tab-bg-active: #ccc;
     height: 114px;
     border: 1px solid black;
     background-color: white;
-    overflow: scroll;
+    overflow: hidden;
     margin: 0px 25px;
   }
 
@@ -327,7 +327,7 @@ $tab-bg-active: #ccc;
 .content {
   text-align: left;
   padding: 33px 10px 0 0;
-  overflow: scroll;
+  overflow: hidden;
 
   .date {
     font-size: 8pt;
