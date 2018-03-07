@@ -1,30 +1,33 @@
 import React from "react";
 import Tweet from './tweet.js';
-import ReplyListener from './replyListener.js';
+import PubSubListener from './pubSubListener.js';
 import PostTweetUI from './postTweet.js';
+import {PUBSUBEVENTS} from './pubSubEvents.js';
 
 class ReplyTweet extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      display: 'none',
+      displayModal: false,
       tweet: null,
+      postTweetText: '',
     }
     this.openReplyTweetModal = this.openReplyTweetModal.bind(this);
-    ReplyListener.subscribe('reply', this.openReplyTweetModal);
+    PubSubListener.subscribe(PUBSUBEVENTS.REPLY, this.openReplyTweetModal);
   }
 
   openReplyTweetModal(tweet) {
     this.setState({
-      display: 'block',
+      displayModal: true,
       tweet: tweet,
+      postTweetText: '',
     })
   }
 
   closeReplyTweetModal(event) {
-    if(event.target.className == 'close-modal' || event.target.className == 'replyModal') {
+    if(event.target.className.includes('close-modal') || event.target.className.includes('replyModal')) {
       this.setState({
-        display: 'none',
+        displayModal: false,
       })
     }
   }
@@ -32,12 +35,12 @@ class ReplyTweet extends React.Component {
   render() {
     let tweet = this.state.tweet;
     if(tweet) {
-      return React.createElement('div', {className: 'replyModal', style: {display: this.state.display}, onClick: (event) => this.closeReplyTweetModal(event)},
+      return React.createElement('div', {className: 'replyModal' + (this.state.displayModal ? ' active' : ''), onClick: (event) => this.closeReplyTweetModal(event)},
         React.createElement('div', {className: 'modal-content'},
           React.createElement('button', {className: 'close-modal', onClick: (event) => this.closeReplyTweetModal(event)}, '\u00D7'),
           React.createElement('h1', {className: 'header'}, 'Reply to Tweet'),
           React.createElement(Tweet, {tweet: tweet, options: {showReplyButton: false, showUserHandle: true}}),
-          React.createElement(PostTweetUI, {tweet: tweet, isReply: true})));
+          React.createElement(PostTweetUI, {tweet: tweet, postTweetText: this.state.postTweetText, isReply: true})));
     } else {
       return null;
     }

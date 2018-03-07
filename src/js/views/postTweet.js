@@ -1,5 +1,6 @@
 import React from "react";
 import TwitterService from '../services/twitterService.js';
+import PubSubListener from './pubSubListener.js';
 
 class PostTweetUI extends React.Component {
   constructor(props){
@@ -7,8 +8,19 @@ class PostTweetUI extends React.Component {
     this.state = {
       numChars: 0,
       postTweetButtonDisabled: true,
-      postTweetText: '',
+      postTweetText: props.postTweetText,
       postStatus: 'pending',
+    }
+  }
+
+  componentWillReceiveProps(nextProps){
+    if(nextProps.postTweetText !== this.state.postTweetText) {
+      this.setState({
+        numChars: 0,
+        postTweetButtonDisabled: true,
+        postTweetText: nextProps.postTweetText,
+        postStatus: 'pending',
+      });
     }
   }
 
@@ -38,7 +50,7 @@ class PostTweetUI extends React.Component {
     let postStatus = this.state.postStatus;
     return React.createElement('div', {className: 'postTweet'},
       React.createElement('div', {className: 'postTweetWrapper'},
-        React.createElement('textarea', {className: 'postTweetText', maxLength: '280', type: 'text', onKeyUp: (event) => this.preparePost(event)}),
+        React.createElement('textarea', {className: 'postTweetText', maxLength: '280', type: 'text', value: this.state.postTweetText, onChange: (event) => this.preparePost(event)}),
         React.createElement('span', {className: 'characterCount'}, this.state.numChars),
         React.createElement('div', {className: 'postTweetFeatures'},
           React.createElement('span', {className: 'postTweetResult'},

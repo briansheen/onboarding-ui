@@ -9,6 +9,7 @@ class TweetList extends React.Component {
     this.state = {
       tweetList: null,
       filterButtonDisabled: true,
+      filterText: '',
     };
     this.getAndSetTweetList(props.isHomeTimeline);
   }
@@ -43,7 +44,7 @@ class TweetList extends React.Component {
 
   getAndSetFilteredTweets() {
     let twitterService = new TwitterService;
-    let filter = document.getElementById('filter').value;
+    let filter = this.state.filterText;
     if(filter) {
       twitterService.getFilteredTimeline(filter).then(tweetList => this.setTweetList(tweetList));
     }
@@ -60,9 +61,10 @@ class TweetList extends React.Component {
     twitterResponse.then(tweetList => this.setTweetList(tweetList));
   }
 
-  setButton() {
-    let filterText = document.getElementById('filter').value;
+  setButton(event) {
+    let filterText = event.target.value;
     this.setState({
+      filterText: filterText,
       filterButtonDisabled: !(filterText.length > 0),
     });
   }
@@ -75,7 +77,7 @@ class TweetList extends React.Component {
         React.createElement('h1', {className: 'header'}, this.props.headerMsg),
         React.createElement('button', {type: 'button', className: 'tweetsButton', onClick: () => this.getAndSetTweetList(this.props.isHomeTimeline)}, this.props.buttonText),
         this.props.isHomeTimeline ? React.createElement('div', {className: 'filterTweetDiv'},
-          React.createElement('input', {type: 'text', id: 'filter', onKeyUp: () => this.setButton()}),
+          React.createElement('input', {type: 'text', id: 'filter', value: this.state.filterText, onChange: (event) => this.setButton(event)}),
           React.createElement('button', {disabled: this.state.filterButtonDisabled, type: 'button', id: 'filterButton', onClick: () => this.getAndSetFilteredTweets()}, 'Filter')) : null,
         tweetList ? React.createElement('div', {className: 'tweetList'}, this.renderTweetList(tweetList, this.props.options, this.props.tweetsEmptyMsg)) : React.createElement('div', null, 'Error Communicating with localhost:8080')));
   }

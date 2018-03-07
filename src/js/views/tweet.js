@@ -1,6 +1,7 @@
 import React from "react";
 import Avatar from './avatar.js';
-import ReplyListener from './replyListener.js';
+import PubSubListener from './pubSubListener.js';
+import {PUBSUBEVENTS} from './pubSubEvents.js';
 
 class Tweet extends React.Component {
   render() {
@@ -15,7 +16,7 @@ class Tweet extends React.Component {
         React.createElement('div', {className: 'date'}, formattedDate),
         React.createElement('a', {className: 'link', target: '_blank', href: `https://twitter.com/${user.twitterHandle}/status/${tweet.id}`},
           React.createElement('div', {className: 'msg'}, `${tweet.message}`)),
-        options.showReplyButton ? React.createElement('button', {className: 'replyButton', onClick: () => {ReplyListener.publish('reply', tweet)}}, React.createElement('i', {className: 'fas fa-reply fa-sm'})) : null
+        options.showReplyButton ? React.createElement('button', {className: 'replyButton', onClick: () => {PubSubListener.publish(PUBSUBEVENTS.REPLY, tweet)}}, React.createElement('i', {className: 'fas fa-reply fa-sm'})) : null
       )
     );
   }
