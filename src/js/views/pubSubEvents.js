@@ -1,3 +1,3 @@
-export const PUBSUBEVENTS = {
+export const pubSubEvents = {
   REPLY: "reply"
 };

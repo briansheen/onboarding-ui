@@ -14,11 +14,13 @@ class PostTweetUI extends React.Component {
   }
 
   componentWillReceiveProps(nextProps){
-    if(nextProps.postTweetText !== this.state.postTweetText) {
+    let postTweetText = nextProps.postTweetText;
+    let numChars = postTweetText.length;
+    if(postTweetText !== this.state.postTweetText) {
       this.setState({
-        numChars: 0,
-        postTweetButtonDisabled: true,
-        postTweetText: nextProps.postTweetText,
+        numChars: numChars,
+        postTweetButtonDisabled: !(numChars > 0 && numChars <= 280),
+        postTweetText: postTweetText,
         postStatus: 'pending',
       });
     }

@@ -2,7 +2,7 @@ import React from "react";
 import Tweet from './tweet.js';
 import PubSubListener from './pubSubListener.js';
 import PostTweetUI from './postTweet.js';
-import {PUBSUBEVENTS} from './pubSubEvents.js';
+import {pubSubEvents} from './pubSubEvents.js';
 
 class ReplyTweet extends React.Component {
   constructor(props) {
@@ -13,7 +13,7 @@ class ReplyTweet extends React.Component {
       postTweetText: '',
     }
     this.openReplyTweetModal = this.openReplyTweetModal.bind(this);
-    PubSubListener.subscribe(PUBSUBEVENTS.REPLY, this.openReplyTweetModal);
+    PubSubListener.subscribe(pubSubEvents.REPLY, this.openReplyTweetModal);
   }
 
   openReplyTweetModal(tweet) {
