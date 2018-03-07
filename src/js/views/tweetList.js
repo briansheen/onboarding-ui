@@ -28,10 +28,10 @@ class TweetList extends React.Component {
         let props = {
           key: i,
           tweet: tweet,
-          options: {
+          options: options ? {
             showUserHandle: options.showUserHandle,
             showReplyButton: options.showReplyButton,
-          }
+          } : {},
         };
         tweets.push(React.createElement(Tweet, props));
         i += 1;

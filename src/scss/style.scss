@@ -4,7 +4,7 @@
   font-weight: bold;
   font-style: italic;
   font-family: Verdana;
-  margin: 0 0 20px 0;
+  margin-bottom: 20px;
 }
 
 @mixin tweetList {
@@ -94,7 +94,7 @@ $tab-bg-active: #ccc;
 }
 
 .tweetListWrapper {
-  padding: 0 10px 0 0;
+  padding-right: 10px;
 }
 
 #timelineColumn {
@@ -136,7 +136,7 @@ $tab-bg-active: #ccc;
   margin: auto;
 
   .postTweetWrapper {
-    padding: 0 15px 0 0;
+    padding-right: 15px;
     position: relative;
 
     .characterCount {
@@ -305,7 +305,7 @@ $tab-bg-active: #ccc;
 
   .msg {
     font-size: 11pt;
-    margin: 0 0 2px 0;
+    margin-bottom: 2px;
   }
 
   .link {
