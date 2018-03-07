@@ -4,7 +4,7 @@
   font-weight: bold;
   font-style: italic;
   font-family: Verdana;
-  margin: 0 0 20px 0;
+  margin-bottom: 20px;
 }
 
 @mixin tweetList {
@@ -35,16 +35,16 @@ $tab-bg-hover: #ddd;
 $tab-bg-active: #ccc;
 
 .tweet {
-  height: 110px;
+  height: 114px;
   border-bottom: 1px solid $border-color;
-  overflow: scroll;
+  overflow: hidden;
 
   .userInfo{
     float: left;
     clear: left;
     text-align: center;
     width: 160px;
-    margin: 14px 0;
+    margin: 16px 0;
 
     .name {
       font-weight: bold;
@@ -60,6 +60,14 @@ $tab-bg-active: #ccc;
       height: 50px;
       width: 50px;
     }
+  }
+
+  .replyButton {
+    border: none;
+    background: none;
+    outline: none;
+    cursor: pointer;
+    padding: 0;
   }
 }
 
@@ -86,7 +94,7 @@ $tab-bg-active: #ccc;
 }
 
 .tweetListWrapper {
-  padding: 0 10px 0 0;
+  padding-right: 10px;
 }
 
 #timelineColumn {
@@ -118,51 +126,51 @@ $tab-bg-active: #ccc;
 }
 
 #postTweetColumn {
-  .postTweet {
-    width: 80%;
-    margin: auto;
+  .header {
+    @include headerMargin
+  }
+}
 
-    .postTweetWrapper {
-      padding: 0 15px 0 0;
-      position: relative;
+.postTweet {
+  width: 80%;
+  margin: auto;
 
-      .characterCount {
-        font-size: 10pt;
-        position: absolute;
-        top: 176px;
-        right: -3px;
-      }
+  .postTweetWrapper {
+    padding-right: 15px;
+    position: relative;
 
-      .postTweetFeatures {
-        position: absolute;
-        top: 207px;
-        right: -11px;
+    .characterCount {
+      font-size: 10pt;
+      position: absolute;
+      top: 136px;
+      right: -3px;
+    }
 
-        .postTweetResult {
-          margin: 0 5px;
-          font-size: 11pt;
+    .postTweetFeatures {
+      position: absolute;
+      top: 167px;
+      right: -11px;
 
-          .successText {
-            color: green;
-          }
+      .postTweetResult {
+        margin: 0 5px;
+        font-size: 11pt;
 
-          .failText {
-            color: red;
-          }
+        .successText {
+          color: green;
+        }
+
+        .failText {
+          color: red;
         }
       }
+    }
 
-      .header {
-        @include headerMargin
-      }
-
-      #userTweetText {
-        position: absolute;
-        height: 120px;
-        width: 100%;
-        resize: none;
-        margin: 28px 0 0 5px;
-      }
+    .postTweetText {
+      position: absolute;
+      height: 120px;
+      width: 100%;
+      resize: none;
+      margin: 28px 0 0 5px;
     }
   }
 }
@@ -176,6 +184,7 @@ $tab-bg-active: #ccc;
     padding-left: 0px;
     margin: auto;
     width: 90%;
+
     .tab {
       display: inline-block;
       background-color: inherit;
@@ -189,16 +198,104 @@ $tab-bg-active: #ccc;
         background-color: $tab-bg-hover;
       }
     }
+
     .active {
       background-color: $tab-bg-active;
     }
   }
 }
 
+#replyTweetModal {
+  .replyModal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    right: 40%;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+    -webkit-animation-name: fadeIn;
+    -webkit-animation-duration: 0.2s;
+    animation-name: fadeIn;
+    animation-duration: 0.2s;
+
+    &.active {
+      display: block;
+    }
+  }
+
+  .modal-content {
+    position: fixed;
+    right: 0px;
+    width: 40%;
+    height: 100%;
+    margin: auto;
+    background-color: white;
+    -webkit-animation-name: slideIn;
+    -webkit-animation-duration: 0.2s;
+    animation-name: slideIn;
+    animation-duration: 0.2s;
+    border: 1px solid black;
+  }
+
+  .close-modal {
+    position: absolute;
+    right: 10px;
+    font-size: 20pt;
+    border: none;
+    background: none;
+    outline: none;
+    cursor: pointer;
+  }
+
+  @-webkit-keyframes slideIn {
+    from {right: -300px; opacity: 0}
+    to {right: 0; opacity: 1}
+  }
+
+  @keyframes slideIn {
+      from {right: -300px; opacity: 0}
+      to {right: 0; opacity: 1}
+  }
+
+  @-webkit-keyframes fadeIn {
+      from {opacity: 0}
+      to {opacity: 1}
+  }
+
+  @keyframes fadeIn {
+      from {opacity: 0}
+      to {opacity: 1}
+  }
+
+  .header {
+    margin: 10px 5px 15px 5px;
+    text-align: center;
+  }
+
+  .tweet {
+    border: none;
+    background-color: white;
+    margin: 0px 25px;
+  }
+
+  .characterCount {
+    top: 136px;
+    right: -3px;
+  }
+
+  .postTweetFeatures {
+    top: 167px;
+    right: -11px;
+  }
+}
+
 .content {
   text-align: left;
   padding: 33px 10px 0 0;
-  overflow: scroll;
+  overflow: hidden;
 
   .date {
     font-size: 8pt;
@@ -208,6 +305,7 @@ $tab-bg-active: #ccc;
 
   .msg {
     font-size: 11pt;
+    margin-bottom: 2px;
   }
 
   .link {

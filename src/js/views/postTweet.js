@@ -1,48 +1,58 @@
 import React from "react";
 import TwitterService from '../services/twitterService.js';
+import PubSubListener from './pubSubListener.js';
 
 class PostTweetUI extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      numChars: 0,
-      postTweetButtonDisabled: true,
-      userTweetText: '',
+      postTweetText: props.postTweetText,
       postStatus: 'pending',
     }
   }
 
+  componentWillReceiveProps(nextProps){
+    if(nextProps) {
+      if(nextProps.postTweetText !== this.state.postTweetText) {
+        this.setState({
+          postTweetText: nextProps.postTweetText,
+          postStatus: 'pending',
+        });
+      }
+    }
+  }
+
   preparePost(event) {
-    let userTweetText = event.target.value;
-    let numChars = userTweetText.length;
     this.setState({
-      numChars: numChars,
-      postTweetButtonDisabled: !(numChars > 0 && numChars <= 280),
-      userTweetText: userTweetText,
+      postTweetText: event.target.value,
       postStatus: 'pending',
     });
   }
 
   postAndGetResponse() {
     let twitterService = new TwitterService;
-    let postResponse;
-    twitterService.postTweet(this.state.userTweetText).then(res => {
-      res ? this.setState({postStatus: 'success'}) : this.setState({postStatus: 'fail'});
+    this.props.isReply ?
+      (this.props.tweet && this.props.tweet.id) ? (twitterService.replyTweet(this.state.postTweetText, this.props.tweet.id).then(res => {
+        res ? this.setState({postStatus: 'success'}) : this.setState({postStatus: 'fail'})})) : (this.setState({postStatus: 'fail'})) :
+      twitterService.postTweet(this.state.postTweetText).then(res => {
+        res ? this.setState({postStatus: 'success'}) : this.setState({postStatus: 'fail'});
     });
   }
 
   render() {
     let postStatus = this.state.postStatus;
+    let postTweetText = this.state.postTweetText || '';
+    let numChars = postTweetText.length;
+    let postTweetButtonDisabled = !(numChars > 0 && numChars <= 280);
     return React.createElement('div', {className: 'postTweet'},
       React.createElement('div', {className: 'postTweetWrapper'},
-        React.createElement('h1', {className: 'header'}, 'Post Tweet'),
-        React.createElement('textarea', {id: 'userTweetText', maxLength: '280', type: 'text', onKeyUp: (event) => this.preparePost(event)}),
-        React.createElement('span', {className: 'characterCount'}, this.state.numChars),
+        React.createElement('textarea', {className: 'postTweetText', maxLength: '280', type: 'text', value: postTweetText, onChange: (event) => this.preparePost(event)}),
+        React.createElement('span', {className: 'characterCount'}, numChars),
         React.createElement('div', {className: 'postTweetFeatures'},
           React.createElement('span', {className: 'postTweetResult'},
             postStatus === 'success' ? React.createElement('span', {className: 'successText'}, 'Successful Post') :
             postStatus === 'fail' ? React.createElement('span', {className: 'failText'}, 'Failed to Post') : null),
-          React.createElement('button', {className: 'postTweetButton', type: 'button', disabled: this.state.postTweetButtonDisabled, onClick: () => this.postAndGetResponse()}, 'Tweet')
+          React.createElement('button', {className: 'postTweetButton', type: 'button', disabled: postTweetButtonDisabled, onClick: () => this.postAndGetResponse()}, this.props.isReply ? 'Reply' : 'Tweet')
         )
       )
     );

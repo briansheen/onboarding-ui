@@ -7,7 +7,7 @@ class Avatar extends React.Component {
       React.createElement('div', {className: 'img'},
         React.createElement('img', {src: `${user.profileImageUrl}`, className: 'img-circle'})),
       React.createElement('div', {className: 'name'}, `${user.name}`),
-      this.props.isHomeTimeline ? React.createElement('div', {className: 'handle'}, `@${user.twitterHandle}`) : null);
+      this.props.showUserHandle ? React.createElement('div', {className: 'handle'}, `@${user.twitterHandle}`) : null);
   }
 }
 
