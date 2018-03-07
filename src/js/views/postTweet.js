@@ -32,8 +32,8 @@ class PostTweetUI extends React.Component {
   postAndGetResponse() {
     let twitterService = new TwitterService;
     this.props.isReply ?
-      twitterService.replyTweet(this.state.postTweetText, this.props.tweet.id).then(res => {
-        res ? this.setState({postStatus: 'success'}) : this.setState({postStatus: 'fail'})}) :
+      (this.props.tweet && this.props.tweet.id) ? (twitterService.replyTweet(this.state.postTweetText, this.props.tweet.id).then(res => {
+        res ? this.setState({postStatus: 'success'}) : this.setState({postStatus: 'fail'})})) : (this.setState({postStatus: 'fail'})) :
       twitterService.postTweet(this.state.postTweetText).then(res => {
         res ? this.setState({postStatus: 'success'}) : this.setState({postStatus: 'fail'});
     });
@@ -41,7 +41,7 @@ class PostTweetUI extends React.Component {
 
   render() {
     let postStatus = this.state.postStatus;
-    let postTweetText = this.state.postTweetText;
+    let postTweetText = this.state.postTweetText || '';
     let numChars = postTweetText.length;
     let postTweetButtonDisabled = !(numChars > 0 && numChars <= 280);
     return React.createElement('div', {className: 'postTweet'},

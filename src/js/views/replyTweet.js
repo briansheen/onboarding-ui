@@ -2,7 +2,7 @@ import React from "react";
 import Tweet from './tweet.js';
 import PubSubListener from './pubSubListener.js';
 import PostTweetUI from './postTweet.js';
-import {pubSubEvents} from './pubSubEvents.js';
+import {PubSubEvents} from './pubSubEvents.js';
 
 class ReplyTweet extends React.Component {
   constructor(props) {
@@ -13,7 +13,7 @@ class ReplyTweet extends React.Component {
       postTweetText: '',
     }
     this.openReplyTweetModal = this.openReplyTweetModal.bind(this);
-    PubSubListener.subscribe(pubSubEvents.REPLY, this.openReplyTweetModal);
+    PubSubListener.subscribe(PubSubEvents.REPLY, this.openReplyTweetModal);
   }
 
   openReplyTweetModal(tweet) {
@@ -35,12 +35,13 @@ class ReplyTweet extends React.Component {
   render() {
     let tweet = this.state.tweet;
     if(tweet) {
+      let postTweetText = this.state.postTweetText || '';
       return React.createElement('div', {className: 'replyModal' + (this.state.displayModal ? ' active' : ''), onClick: (event) => this.closeReplyTweetModal(event)},
         React.createElement('div', {className: 'modal-content'},
           React.createElement('button', {className: 'close-modal', onClick: (event) => this.closeReplyTweetModal(event)}, '\u00D7'),
           React.createElement('h1', {className: 'header'}, 'Reply to Tweet'),
           React.createElement(Tweet, {tweet: tweet, options: {showReplyButton: false, showUserHandle: true}}),
-          React.createElement(PostTweetUI, {tweet: tweet, postTweetText: this.state.postTweetText, isReply: true})));
+          React.createElement(PostTweetUI, {tweet: tweet, postTweetText: postTweetText, isReply: true})));
     } else {
       return null;
     }
